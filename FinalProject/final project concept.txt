@@ -1,0 +1,64 @@
+以下是我们的程序大概要长什么样子的概念。
+
+import 各种需要需要的模组
+
+def 随机数产生器()
+    #使用当前时间来当随机种子 using current time as random seed to generate random number
+    .
+    .
+    .
+    return 一个数值。
+
+Class 游戏():
+    def __init__(self,玩家名字,分数初始化):
+        self.玩家名字 = 玩家名字
+        self.分数 = 0
+    
+    def 游戏1(self):
+        .
+        .
+        .
+    
+    def 游戏2(self):
+        .
+        .
+        .
+
+Class HallOfFame():
+    #如果玩家符合资格，询问是否将分数存入。 if the player have successfully passed the game, then ask the player whether save or not saving their result.  
+    #玩家名字与分数存入csv文件，并返回“你打败了多少%的player” print a message that show the player has defeat how many percent of player that had been save in the HallOfFame. Player name and result will write into csv file.
+    .
+    .
+    .
+    
+
+i = 5 #游戏共有5关
+game_over = False 
+while i >= 0 and game_over == False:  #game_over会true时代表游戏已结束。
+    match 随机数产生器():
+        case "1":
+            游戏().游戏1
+            .
+            .
+            .
+
+        case "2":
+            游戏().游戏2
+            .
+            .
+            .
+
+        case "3":
+            游戏().游戏3
+            .
+            .
+            .
+    
+    i -= 1
+    #完成全部关卡后，进入分数结算环节 proceed to final result process part when the player has done all of the game stage.
+
+
+HallOfFame() #呼叫名人堂程序，进行最后的输出。
+
+
+    
