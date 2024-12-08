@@ -1,5 +1,3 @@
-# @title Not Not minigame
-
 import random
 import time
 
