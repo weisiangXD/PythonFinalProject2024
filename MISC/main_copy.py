@@ -61,13 +61,18 @@ class games():
         attempts = 0  # 記錄嘗試次數
 
         print("請輸入1到100之間的數字。")
-        x = 100
-        y = 1
+        x = 100  # 初始化范围的上限
+        y = 1    # 初始化范围的下限
 
         while True:
             try:
                 # 玩家輸入猜測數字
                 guess = int(input("請輸入你的猜測： "))
+                
+                # 检查输入是否在有效范围内
+                if guess < 1 or guess > 100:
+                    raise ValueError("輸入的數字超出範圍！")  # 手动抛出异常
+                
                 attempts += 1
 
                 if guess < number_to_guess:
@@ -95,8 +100,9 @@ class games():
                     
                     print(f"你目前的分数为 {self.score}")
                     break
-            except ValueError:
-                print("請輸入有效的數字！")
+            except ValueError as e:
+                print(f"錯誤：{e} 請輸入1到100之間的有效數字！")
+
 
 
 #HallOfFame()使用手册
