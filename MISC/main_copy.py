@@ -50,7 +50,54 @@ class games():
             print(f"答案错误！正确答案是{ans}!")
             print(f'你目前的分数为{self.score}')
         return self.score
-    #def game2():
+    
+    def guess_the_number(self):
+        print("歡迎來到猜數字遊戲！")
+        print("我會隨機選一個1到100的數字，你需要猜出它是什麼。")
+        print("如果猜錯了，我會告訴你答案是更大還是更小。")
+
+        # 隨機生成1到100之間的數字
+        number_to_guess = random.randint(1, 100)
+        attempts = 0  # 記錄嘗試次數
+
+        print("請輸入1到100之間的數字。")
+        x = 100
+        y = 1
+
+        while True:
+            try:
+                # 玩家輸入猜測數字
+                guess = int(input("請輸入你的猜測： "))
+                attempts += 1
+
+                if guess < number_to_guess:
+                    print("太小了！再試一次。")
+                    print(f"請輸入 {guess} 到 {x} 之間的數字。")
+                    y = guess
+                elif guess > number_to_guess:
+                    print("太大了！再試一次。")
+                    print(f"請輸入 {y} 到 {guess} 之間的數字。")
+                    x = guess
+                else:
+                    print(f"恭喜你猜中了！答案是 {number_to_guess} 。")
+                    print(f"你總共猜了 {attempts} 次。")
+
+                    # 加分逻辑：根据尝试次数奖励分数
+                    if attempts <= 3:
+                        self.score += 5  # 极快猜中，奖励 5 分
+                        print("太厉害了！奖励 5 分！")
+                    elif attempts <= 6:
+                        self.score += 3  # 正常表现，奖励 3 分
+                        print("很不错！奖励 3 分！")
+                    else:
+                        self.score += 1  # 尽管尝试多次，但最终成功，奖励 1 分
+                        print("坚持就是胜利！奖励 1 分！")
+                    
+                    print(f"你目前的分数为 {self.score}")
+                    break
+            except ValueError:
+                print("請輸入有效的數字！")
+
 
 #HallOfFame()使用手册
 #主资料变数为列表形态 HallOfFame().data，里面存了三笔资料: UID,uname,score，分别对用户ID，用户名称以及用户分数。
@@ -189,12 +236,12 @@ game_over = False
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
 while i > 0 and game_over == False:
-    DICE = Rnumber()
+    DICE = Rnumber() # random number:0~9
 
-    if DICE < 5:
+    if DICE <5:
         updated_score = GAMES.simplemath()
     else:
-        updated_score = GAMES.simplemath2()
+        updated_score = GAMES.guess_the_number()
 
     
     
