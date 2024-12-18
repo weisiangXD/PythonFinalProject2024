@@ -30,73 +30,50 @@ class games():
         self.score = score
     
     def simplemath(self):
-        def progress(mark): #mark = 应该增加的分数为多少
+        def progress(player_input, ans, mark):
             if player_input == ans:
                 self.score += mark
                 print("答案正确！")
-                print(f'你目前的分数为{self.score}')
+                print(f'你目前的分数为 {self.score}')
             else:
-                print(f"答案错误！正确答案是{ans}!")
-                print(f'你目前的分数为{self.score}')
+                print(f"答案错误！正确答案是 {ans}!")
+                print(f'你目前的分数为 {self.score}')
 
-        DICE = Rnumber(1) # 0~9
-        operator = ['+','-','*','/']
-        operand1 = [Rnumber(1),Rnumber(10),Rnumber(100)]
-        time.sleep(0.25) #等待0.25秒，不然会出现operand1和operand2相同数值的情况（因为是在同时获得的以时间为随机种子的值）
-        operand2 = [Rnumber(1),Rnumber(10),Rnumber(100)]
+        DICE = Rnumber(1)  # 0~9
+        operators = ['+', '-', '*', '/']
+        operands1 = [Rnumber(1), Rnumber(10), Rnumber(100)]
+        time.sleep(0.25)  # 等待0.25秒，不然会出现operand1和operand2相同数值的情况（因为是在同时获得的以时间为随机种子的值）
+        operands2 = [Rnumber(1), Rnumber(10), Rnumber(100)]
         num10 = Rnumber(10)
-        if DICE <4: #0-3,4-7,8,9
-            if num10 < 50:
-                ans_string = f'{operand1[0]} {operator[0]} {operand2[0]}'
-                ans = operand1[0] + operand2[0]
-                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-                progress(2) #个位数加法，给2分
-                return self.score
-            elif num10 >= 50 and num10 < 90:
-                ans_string = f'{operand1[1]} {operator[0]} {operand2[1]}'
-                ans = operand1[1] + operand2[1]
-                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-                progress(5) #十位数加法，给5分
-                return self.score
-            elif num10 >= 90:
-                ans_string = f'{operand1[2]} {operator[0]} {operand2[2]}'
-                ans = operand1[2] + operand2[2]
-                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-                progress(10) #百位数加法，给10分
-                return self.score
-        elif DICE >5 and DICE <8:
-            if num10 < 50:
-                ans_string = f'{operand1[0]} {operator[1]} {operand2[0]}'
-                ans = operand1[0] - operand2[0]
-                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-                progress(2) #个位数减法，给2分
-                return self.score
-            elif num10 >= 50 and num10 < 90:
-                ans_string = f'{operand1[1]} {operator[1]} {operand2[1]}'
-                ans = operand1[1] - operand2[1]
-                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-                progress(5) #十位数减法，给5分
-                return self.score
-            elif num10 >= 90:
-                ans_string = f'{operand1[2]} {operator[1]} {operand2[2]}'
-                ans = operand1[2] - operand2[2]
-                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-                progress(10) #百位数减法，给10分
-                return self.score
-        elif DICE ==8:
-            ans_string = f'{operand1[0]} {operator[2]} {operand2[0]}'
-            ans = operand1[0] * operand2[0]
-            player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-            progress(10) #个位数乘法，给10分
-            return self.score
+        
+        if DICE <= 4:  # 0-4 为加法
+            index = 0 if num10 < 50 else 1 if num10 < 90 else 2
+            ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
+            ans = operands1[index] + operands2[index]
+            mark = 2 if index == 0 else 5 if index == 1 else 10
+        elif 5 <= DICE <= 8:  # 5-8 为减法 
+            index = 0 if num10 < 50 else 1 if num10 < 90 else 2
+            ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
+            ans = operands1[index] - operands2[index]
+            mark = 2 if index == 0 else 5 if index == 1 else 10
+        elif DICE == 8: # 8 为乘法
+            ans_string = f'{operands1[0]} {operators[2]} {operands2[0]}'
+            ans = operands1[0] * operands2[0]
+            mark = 10
+        else: #9 为整数除法
+            ans_string = f'{operands1[0]} {operators[3]} {operands2[0]}'
+            ans = operands1[0] // operands2[0]
+            mark = 10
+
+        dialog = f'请输入答案 {ans_string} 等于多少'
+        if DICE == 9:  # 只有在除法情况下提示整数除法
+            dialog += ' (整数除法): '
         else:
-            if(operand2[0] == 0): #避免除以0的情况发生！
-                operand2[0] += 1
-            ans_string = f'{operand1[0]} {operator[3]} {operand2[0]}'
-            ans = operand1[0] // operand2[0]
-            player_input = int(input(f'请输入答案{ans_string}等于多少(整数除法): '))
-            progress(10) #个位数除法，给10分
-            return self.score
+            dialog += ': '
+
+        player_input = int(input(dialog))
+        progress(player_input, ans, mark)
+        return self.score
 
     def simplemath2(self):
         ans_string = '2+1'
@@ -303,11 +280,10 @@ GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功�
 while i > 0 and game_over == False:
     DICE = Rnumber(1) # random number:0~9
 
-    if DICE < 5:
+    if DICE:
         updated_score = GAMES.simplemath()
     else:
         updated_score = GAMES.guess_the_number()
-
     
     
 
