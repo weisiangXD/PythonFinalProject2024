@@ -13,12 +13,16 @@ def loading(waitTIME):
         print(f"loading {progress[i]}%")
         time.sleep(cd)
 
-def Rnumber():   
+def Rnumber(mode):   # 1 = 个位数，10=十位数，100=百位数
     currentTIME = float(time.time()) #fetching current time
     random.seed(currentTIME) #using current time as random number generator seed.
-
-    randomNUM = random.randint(0,9) #random number are int(0~9)
-
+    match mode:
+        case 1:
+            randomNUM = random.randint(0,9) #random number are int(0~9)
+        case 10:
+            randomNUM = random.randint(10,99) #random number are int(10~99)
+        case 100:
+            randomNUM = random.randint(100,999) #random number are int(100~999)
     return randomNUM #return value
 
 class games():
@@ -26,17 +30,73 @@ class games():
         self.score = score
     
     def simplemath(self):
-        ans_string = '1+1'
-        ans = 1 + 1
-        player_input = int(input(f'请输入答案{ans_string}等于多少: '))
-        if player_input == ans:
-            self.score += 1
-            print("答案正确！")
-            print(f'你目前的分数为{self.score}')
+        def progress(mark): #mark = 应该增加的分数为多少
+            if player_input == ans:
+                self.score += mark
+                print("答案正确！")
+                print(f'你目前的分数为{self.score}')
+            else:
+                print(f"答案错误！正确答案是{ans}!")
+                print(f'你目前的分数为{self.score}')
+
+        DICE = Rnumber(1) # 0~9
+        operator = ['+','-','*','/']
+        operand1 = [Rnumber(1),Rnumber(10),Rnumber(100)]
+        time.sleep(0.25) #等待0.25秒，不然会出现operand1和operand2相同数值的情况（因为是在同时获得的以时间为随机种子的值）
+        operand2 = [Rnumber(1),Rnumber(10),Rnumber(100)]
+        num10 = Rnumber(10)
+        if DICE <4: #0-3,4-7,8,9
+            if num10 < 50:
+                ans_string = f'{operand1[0]} {operator[0]} {operand2[0]}'
+                ans = operand1[0] + operand2[0]
+                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+                progress(2) #个位数加法，给2分
+                return self.score
+            elif num10 >= 50 and num10 < 90:
+                ans_string = f'{operand1[1]} {operator[0]} {operand2[1]}'
+                ans = operand1[1] + operand2[1]
+                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+                progress(5) #十位数加法，给5分
+                return self.score
+            elif num10 >= 90:
+                ans_string = f'{operand1[2]} {operator[0]} {operand2[2]}'
+                ans = operand1[2] + operand2[2]
+                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+                progress(10) #百位数加法，给10分
+                return self.score
+        elif DICE >5 and DICE <8:
+            if num10 < 50:
+                ans_string = f'{operand1[0]} {operator[1]} {operand2[0]}'
+                ans = operand1[0] - operand2[0]
+                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+                progress(2) #个位数减法，给2分
+                return self.score
+            elif num10 >= 50 and num10 < 90:
+                ans_string = f'{operand1[1]} {operator[1]} {operand2[1]}'
+                ans = operand1[1] - operand2[1]
+                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+                progress(5) #十位数减法，给5分
+                return self.score
+            elif num10 >= 90:
+                ans_string = f'{operand1[2]} {operator[1]} {operand2[2]}'
+                ans = operand1[2] - operand2[2]
+                player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+                progress(10) #百位数减法，给10分
+                return self.score
+        elif DICE ==8:
+            ans_string = f'{operand1[0]} {operator[2]} {operand2[0]}'
+            ans = operand1[0] * operand2[0]
+            player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+            progress(10) #个位数乘法，给10分
+            return self.score
         else:
-            print(f"答案错误！正确答案是{ans}!")
-            print(f'你目前的分数为{self.score}')
-        return self.score
+            if(operand2[0] == 0): #避免除以0的情况发生！
+                operand2[0] += 1
+            ans_string = f'{operand1[0]} {operator[3]} {operand2[0]}'
+            ans = operand1[0] // operand2[0]
+            player_input = int(input(f'请输入答案{ans_string}等于多少(整数除法): '))
+            progress(10) #个位数除法，给10分
+            return self.score
 
     def simplemath2(self):
         ans_string = '2+1'
@@ -57,7 +117,7 @@ class games():
         print("如果猜錯了，我會告訴你答案是更大還是更小。")
 
         # 隨機生成1到100之間的數字
-        number_to_guess = random.randint(1, 100)
+        number_to_guess = Rnumber(10)
         attempts = 0  # 記錄嘗試次數
 
         print("請輸入1到100之間的數字。")
@@ -179,6 +239,7 @@ class HallOfFame():
             self.add(playerNAME, score)
         self.sort()
         self.save("leaderboard.csv")
+        print(f"\n[HOF]玩家{playerNAME}获得的总分是{score}恭喜成为我们第{self.seq}入榜的玩家！")
         print("\n[HOF]您的分数已成功存入名人堂！")
 
     #管理员使用的后台程序。
@@ -198,8 +259,6 @@ class HallOfFame():
 
 while 1:
     option = int(input("↓我是菜单↓\n1.开始游戏\n2.查看分数排行榜\n3.查看Credit\n"))
-
-    loading(2)
 
     if option > 3 and option != 10086:
         print("未知功能！请重新选取！")
@@ -235,16 +294,16 @@ while 1:
 
 #MAIN program START
 
-i = 2
+i = 5
 game_over = False
 
 
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
 while i > 0 and game_over == False:
-    DICE = Rnumber() # random number:0~9
+    DICE = Rnumber(1) # random number:0~9
 
-    if DICE <5:
+    if DICE < 5:
         updated_score = GAMES.simplemath()
     else:
         updated_score = GAMES.guess_the_number()
@@ -253,9 +312,10 @@ while i > 0 and game_over == False:
     
 
     loading(1) #等待一秒, loading()内建等待1秒
+    print("")
     i -= 1
 
-
+print(f"你在本次游玩中获得了{GAMES.score}分")
 print("恭喜！您已获得进入名人堂的资格，是否将自己的分数与其他人一较高下？")
 option = input("'Yes' or 'No' ? Y/N: ")
 if option == 'N' or option == 'n':
