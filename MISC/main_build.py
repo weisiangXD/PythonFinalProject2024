@@ -299,5 +299,8 @@ if option == 'N' or option == 'n':
     print("您的分数已被初始化，感谢游玩！")
     GAMES.score = 0
 elif option == 'Y' or option == 'y':
-    HallOfFame().save_data(1,GAMES.score)
+    HallOfFame().save_data(1,GAMES.score) #第一个参数为访问该函式的模式(1为正常访问，10086为管理员模式），第二个参数为所获得的分数。
     print("您的分数已成功存入名人堂！")  
+
+
+#MAIN program END
