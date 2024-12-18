@@ -47,12 +47,12 @@ class games():
         num10 = Rnumber(10)
         
         if DICE <= 4:  # 0-4 为加法
-            index = 0 if num10 < 50 else 1 if num10 < 90 else 2
+            index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
             ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
             ans = operands1[index] + operands2[index]
             mark = 2 if index == 0 else 5 if index == 1 else 10
         elif 5 <= DICE <= 8:  # 5-8 为减法 
-            index = 0 if num10 < 50 else 1 if num10 < 90 else 2
+            index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数减法
             ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
             ans = operands1[index] - operands2[index]
             mark = 2 if index == 0 else 5 if index == 1 else 10
