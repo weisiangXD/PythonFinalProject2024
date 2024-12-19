@@ -1,12 +1,12 @@
 import random
 import time
 
-# key_to_direction = {
-#     "w": "Up",
-#     "s": "Down",
-#     "a": "Left",
-#     "d": "Right"
-# }
+key_to_direction = {
+    "w": "Up",
+    "s": "Down",
+    "a": "Left",
+    "d": "Right"
+}
 
 directions = [
     ("Left", "a"),

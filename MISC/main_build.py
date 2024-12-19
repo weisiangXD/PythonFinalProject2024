@@ -213,7 +213,7 @@ class games():
     def v_code(self):# verification_code(驗證碼)
         n = 4 # 所要猜的數量
         def show_numbers(): # 顯示四個隨機數字的函數
-            numbers = [random.randint(0, 9) for _ in range(n)] # 隨機生成n個 0 到 9 之間的數字
+            numbers = [Rnumber(0, 9) for _ in range(n)] # 隨機生成n個 0 到 9 之間的數字
             
             # 顯示這些數字，並將它們合併成一個無空格的字符串
             print("".join(map(str, numbers)))  # 將數字轉換為字符串並顯示
