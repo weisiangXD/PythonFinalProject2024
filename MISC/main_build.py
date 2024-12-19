@@ -44,20 +44,20 @@ class games():
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
             ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
             ans = operands1[index] + operands2[index]
-            score = 2 if index == 0 else 5 if index == 1 else 10
+            score = 20
         elif 5 <= DICE <= 8:  # 5-8 为减法 
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数减法
             ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
             ans = operands1[index] - operands2[index]
-            score = 2 if index == 0 else 5 if index == 1 else 10
+            score = 20
         elif DICE == 8: # 8 为乘法
             ans_string = f'{operands1[0]} {operators[2]} {operands2[0]}'
             ans = operands1[0] * operands2[0]
-            score = 10
+            score = 20
         else: #9 为整数除法
             ans_string = f'{operands1[0]} {operators[3]} {operands2[0]}'
             ans = operands1[0] // operands2[0]
-            score = 10
+            score = 20
 
         dialog = f'请输入答案 {ans_string} 等于多少'
         if DICE == 9:  # 只有在除法情况下提示整数除法
@@ -70,12 +70,17 @@ class games():
                 player_input = int(input(dialog))
                 break  # 输入正确则退出循环
             except ValueError:
-                print("输入无效，请输入一个整数！")
+                print("输入无效，请输入一个整数！\n")
 
-        GAMEprogress(player_input, ans, score)
-        return self.score
+            GAMEprogress(player_input, ans, score)
+            return self.score
 
     def NMS_NUMseq(self):
+
+        print("歡迎來到數列解密遊戲！")
+        print("數組之間是有規律，請猜出-????-裏是什麼。")
+        print("注意：1題只有 1 次機會！")
+
         def shiftL(numseq):
             temp = numseq[0] #将第一个元素用temp变数存储起来。
             for i in range(1, len(numseq)):
@@ -97,18 +102,17 @@ class games():
             if playerANS == ANS:
                 print("对了！")
                 self.score += score
-                print(f"你获得了{score}")
-                print(f"目前总分为{self.score}")
+                print(f"你获得了{score}\n")
+                print(f"目前总分为{self.score}\n")
             else:
                 print("错了！")
-                print(f"正确答案是{ANS[0]}{ANS[1]}{ANS[2]}{ANS[3]}")
+                print(f"正确答案是{ANS[0]}{ANS[1]}{ANS[2]}{ANS[3]}\n")
         NUMseq = [time.sleep(0.25) or Rnumber(0,9) for i in range(4)] #建立数字序列，create NUMsequence
         DICE = Rnumber(0,2)
         NUMseq_copy = NUMseq.copy() #为答案的结果独立计算所建立，避免相同地址冲突的情况发生
         WHEN_TO_ANSWER = Rnumber(0,3) #在哪个环节进行答题
         if DICE: #0为shift to left，向左位移
             for _ in range(WHEN_TO_ANSWER+1): #确保迭代至所要求的答案输入次序。
-                print("iterable",_)
                 ans = shiftL(NUMseq_copy)
             for i in range(4):
                 if i == WHEN_TO_ANSWER:  
@@ -120,7 +124,6 @@ class games():
             
         else:
             for _ in range(WHEN_TO_ANSWER+1): #确保迭代至所要求的答案输入次序。
-                print("iterable",_)
                 ans = shiftR(NUMseq_copy)
             for i in range(4):
                 if i == WHEN_TO_ANSWER:  
@@ -131,10 +134,17 @@ class games():
                 print(f"-{ans_string_output[0]}{ans_string_output[1]}{ans_string_output[2]}{ans_string_output[3]}-", end =' ')
 
         ans_string_input = ListToString(ans)
-        player_input = str(input("请输入答案！"))
-        
 
-        progress(player_input,ans_string_input,10)
+        while True:
+            try:
+                player_input = str(input("\n请输入答案！\n"))  # 输入答案
+                if len(player_input) != 4 or not player_input.isdigit():  # 检查是否为有效的 4 位数字
+                    raise ValueError("输入必须是 4 位数字！\n")
+                break
+            except ValueError as e:
+                print(f"输入错误：{e} 请重新输入！\n")
+
+        progress(player_input,ans_string_input,20)
                 
 
 
@@ -146,7 +156,7 @@ class games():
         print("注意：你最多只能猜 10 次！")
 
         # 隨機生成1到100之間的數字
-        number_to_guess = random.randint(1, 100)
+        number_to_guess = Rnumber(1,100)
         attempts = 0  # 記錄嘗試次數
         max_attempts = 10  # 最大猜測次數
 
@@ -180,14 +190,14 @@ class games():
 
                     # 加分逻辑：根据尝试次数奖励分数
                     if attempts <= 5:
-                        self.score += 10  # 极快猜中，奖励 10 分
-                        print("太厉害了！奖励 10 分！\n")
+                        self.score += 20  # 极快猜中，奖励 20 分
+                        print("太厉害了！奖励 20 分！\n")
                     elif attempts <= 8:
-                        self.score += 5  # 正常表现，奖励 5 分
-                        print("很不错！奖励 5 分！\n")
+                        self.score += 10  # 正常表现，奖励 10 分
+                        print("很不错！奖励 10 分！\n")
                     else:
-                        self.score += 2  # 尽管尝试多次，但最终成功，奖励 2 分
-                        print("坚持就是胜利！奖励 2 分！\n")
+                        self.score += 5  # 尽管尝试多次，但最终成功，奖励 5 分
+                        print("坚持就是胜利！奖励 5 分！\n")
                     
                     print(f"你目前的總分数为 {self.score}。\n")
                     break
@@ -344,8 +354,8 @@ while i > 0 and game_over == False:
     #     updated_score = GAMES.simplemath()
     # else:
     #     updated_score = GAMES.guess_the_number()
-    updated_score = GAMES.NMS_NUMseq()
-    
+    #updated_score = GAMES.NMS_NUMseq()
+    updated_score = GAMES.guess_the_number()#delete
 
     loading(1) #等待一秒, loading()内建等待1秒
     print("")
