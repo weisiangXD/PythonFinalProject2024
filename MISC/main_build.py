@@ -91,10 +91,10 @@ class games():
             numseq[0] = temp #将temp赋予最后一位元素。
             return numseq
         def ListToString(numseq):
-                result_str = ''
-                for num in numseq:
-                    result_str += str(num)
-                return result_str
+            result_str = ''
+            for num in numseq:
+                result_str += str(num)
+            return result_str
         def progress(playerANS,ANS,score):
             if playerANS == ANS:
                 print("对了！")
@@ -143,7 +143,7 @@ class games():
 
         progress(player_input,ans_string_input,20)
 
-    def democratic_spirit(self):
+    #def democratic_spirit(self):
 
 
 
@@ -206,7 +206,7 @@ class games():
                     print("很遗憾，你已经用尽了所有猜测机会！")
                     print(f"正確答案是 {number_to_guess} 。\n")
                     print(f"你目前的總分数为 {self.score}。\n")
-                    
+
             except ValueError:  # 异常处理：捕获非数字输入的错误并提示玩家重新输入正确的数字。
                 print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！\n")
 
