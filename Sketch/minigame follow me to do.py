@@ -2,7 +2,7 @@ import random
 import time
 
 def show_numbers():
-    numbers = [random.randint(0, 9) for _ in range(4)]  # 生成四個隨機數字
+    numbers = [random.randint(0, 9) for _ in range(6)]  # 生成N個隨機數字
     print("請記住這四個數字:")
     print("".join(map(str, numbers)))  # 顯示數字，沒有空格
     time.sleep(2)  # 等待2秒
