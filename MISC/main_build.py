@@ -46,21 +46,16 @@ class games():
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
             ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
             ans = operands1[index] + operands2[index]
-            score = 20
         elif 5 <= DICE <= 8:  # 5-8 为减法 
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数减法
             ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
             ans = operands1[index] - operands2[index]
-            score = 20
         elif DICE == 8: # 8 为乘法
             ans_string = f'{operands1[0]} {operators[2]} {operands2[0]}'
             ans = operands1[0] * operands2[0]
-            score = 20
         else: #9 为整数除法
             ans_string = f'{operands1[0]} {operators[3]} {operands2[0]}'
             ans = operands1[0] // operands2[0]
-            score = 20
-
         dialog = f'请输入答案 {ans_string} 等于多少'
         if DICE == 9:  # 只有在除法情况下提示整数除法
             dialog += ' (整数除法): '
@@ -74,7 +69,7 @@ class games():
             except ValueError:
                 print("输入无效，请输入一个整数！\n")
 
-            GAMEprogress(player_input, ans, score)
+            GAMEprogress(player_input, ans, 20)
             return self.score
 
     def NMS_NUMseq(self):
