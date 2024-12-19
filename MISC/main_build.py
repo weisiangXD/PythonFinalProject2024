@@ -78,9 +78,17 @@ class games():
             return numseq
         NUMseq = [time.sleep(0.25) or Rnumber(0,9) for i in range(4)] #建立数字序列，create NUMsequence
         DICE = Rnumber(0,2)
+        WHEN_TO_ANSWER = Rnumber(0,3) #在哪个环节进行答题
         if DICE: #0为shift to left，向左位移
             for i in range(4):
-                print(shiftL(NUMseq))
+                if i == WHEN_TO_ANSWER:
+                    ans = shiftL(NUMseq)
+                    player_input = int(input("请问输入答案！"))
+                    if player_input == ans:
+                        print("对了！")
+                    else:
+                        print("错了！")
+                print(shiftL(NUMseq), end =' ')
                 
 
 
