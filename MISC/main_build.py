@@ -33,11 +33,11 @@ class games():
         def progress(player_input, ans, mark):
             if player_input == ans:
                 self.score += mark
-                print("答案正确！")
-                print(f'你目前的分数为 {self.score}')
+                print("答案正确！\n")
+                print(f'你目前的總分数为 {self.score}。\n')
             else:
-                print(f"答案错误！正确答案是 {ans}!")
-                print(f'你目前的分数为 {self.score}')
+                print(f"答案错误！正确答案是 {ans}!\n")
+                print(f'你目前的總分数为 {self.score}。\n')
 
         DICE = Rnumber(1)  # 0~9
         operators = ['+', '-', '*', '/']
@@ -71,75 +71,95 @@ class games():
         else:
             dialog += ': '
 
-        player_input = int(input(dialog))
+        while True:
+            try:
+                player_input = int(input(dialog))
+                break  # 输入正确则退出循环
+            except ValueError:
+                print("输入无效，请输入一个整数！")
+
         progress(player_input, ans, mark)
         return self.score
 
     def simplemath2(self):
         ans_string = '2+1'
         ans = 2 + 1
-        player_input = int(input(f'请输入答案{ans_string}等于多少: '))
+        while True:
+            try:
+                player_input = int(input(f'请输入答案 {ans_string} 等于多少: '))
+                break  # 输入正确则退出循环
+            except ValueError:
+                print("输入无效，请输入一个整数！")
+
         if player_input == ans:
             self.score += 2
-            print("答案正确！")
-            print(f'你目前的分数为{self.score}')
+            print("答案正确！奖励 2 分！\n")
+            print(f'你目前的總分数为{self.score}。\n')
         else:
-            print(f"答案错误！正确答案是{ans}!")
-            print(f'你目前的分数为{self.score}')
+            print(f"答案错误！正确答案是{ans}!\n")
+            print(f'你目前的總分数为{self.score}。\n')
         return self.score
     
     def guess_the_number(self):
         print("歡迎來到猜數字遊戲！")
         print("我會隨機選一個1到100的數字，你需要猜出它是什麼。")
         print("如果猜錯了，我會告訴你答案是更大還是更小。")
+        print("注意：你最多只能猜 10 次！")
 
         # 隨機生成1到100之間的數字
-        number_to_guess = Rnumber(10)
+        number_to_guess = random.randint(1, 100)
         attempts = 0  # 記錄嘗試次數
+        max_attempts = 10  # 最大猜測次數
 
         print("請輸入1到100之間的數字。")
         x = 100  # 初始化范围的上限
         y = 1    # 初始化范围的下限
 
-        while True:
+        while attempts < max_attempts:
             try:
                 # 玩家輸入猜測數字
-                guess = int(input("請輸入你的猜測： "))
-                
-                # 检查输入是否在有效范围内
-                if guess < 1 or guess > 100:
-                    raise ValueError("輸入的數字超出範圍！")  # 手动抛出异常
-                
+                guess = int(input(f"您的猜測："))
+
+                # 检查输入是否在动态范围内
+                if guess < y or guess > x:
+                    print(f"超出範圍了！請輸入 {y} 到 {x} 之間的數字。")
+                    continue  # 跳回循环让玩家重新输入
+
                 attempts += 1
 
                 if guess < number_to_guess:
-                    print("太小了！再試一次。")
+                    print("太小了！再試一次。\n")
                     print(f"請輸入 {guess} 到 {x} 之間的數字。")
-                    y = guess
+                    y = guess  # 更新范围的下限
                 elif guess > number_to_guess:
-                    print("太大了！再試一次。")
+                    print("太大了！再試一次。\n")
                     print(f"請輸入 {y} 到 {guess} 之間的數字。")
-                    x = guess
+                    x = guess  # 更新范围的上限
                 else:
-                    print(f"恭喜你猜中了！答案是 {number_to_guess} 。")
+                    print(f"恭喜你猜中了！答案是 {number_to_guess} 。\n")
                     print(f"你總共猜了 {attempts} 次。")
 
                     # 加分逻辑：根据尝试次数奖励分数
-                    if attempts <= 3:
-                        self.score += 5  # 极快猜中，奖励 5 分
-                        print("太厉害了！奖励 5 分！")
-                    elif attempts <= 6:
-                        self.score += 3  # 正常表现，奖励 3 分
-                        print("很不错！奖励 3 分！")
+                    if attempts <= 5:
+                        self.score += 10  # 极快猜中，奖励 10 分
+                        print("太厉害了！奖励 10 分！\n")
+                    elif attempts <= 8:
+                        self.score += 5  # 正常表现，奖励 5 分
+                        print("很不错！奖励 5 分！\n")
                     else:
-                        self.score += 1  # 尽管尝试多次，但最终成功，奖励 1 分
-                        print("坚持就是胜利！奖励 1 分！")
+                        self.score += 2  # 尽管尝试多次，但最终成功，奖励 2 分
+                        print("坚持就是胜利！奖励 2 分！\n")
                     
-                    print(f"你目前的分数为 {self.score}")
+                    print(f"你目前的總分数为 {self.score}。\n")
                     break
-            except ValueError as e:
-                print(f"錯誤：{e} 請輸入1到100之間的有效數字！")
 
+                # 检查猜测次数是否已用尽
+                if attempts == max_attempts:
+                    print("很遗憾，你已经用尽了所有猜测机会！")
+                    print(f"正確答案是 {number_to_guess} 。\n")
+                    print(f"你目前的總分数为 {self.score}。\n")
+            except ValueError: #异常处理：捕获非数字输入的错误并提示玩家重新输入正确的数字。
+                print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！")
 
 
 #HallOfFame()使用手册
@@ -291,16 +311,27 @@ while i > 0 and game_over == False:
     print("")
     i -= 1
 
-print(f"你在本次游玩中获得了{GAMES.score}分")
+print(f"你在本次游玩中获得了 {GAMES.score} 分")
 print("恭喜！您已获得进入名人堂的资格，是否将自己的分数与其他人一较高下？")
-option = input("'Yes' or 'No' ? Y/N: ")
-if option == 'N' or option == 'n':
-    print(f"您的最终分数是: {GAMES.score}")
-    print("您的分数已被初始化，感谢游玩！")
-    GAMES.score = 0
-elif option == 'Y' or option == 'y':
-    HallOfFame().save_data(1,GAMES.score) #第一个参数为访问该函式的模式(1为正常访问，10086为管理员模式），第二个参数为所获得的分数。
-    print("您的分数已成功存入名人堂！")  
 
+while True:
+    try:
+        option = input("'Yes' or 'No' ? Y/N: ").strip()  # 去除多余空格
+        if option in ['N', 'n']:
+            print(f"您的最终分数是: {GAMES.score}")
+            print("您的分数已被初始化，感谢游玩！")
+            GAMES.score = 0
+            break
+        elif option in ['Y', 'y']:
+            HallOfFame().save_data(1, GAMES.score)  # 保存分数到名人堂
+            print("您的分数已成功存入名人堂！")
+            break
+        else:
+            # 如果用户输入无效值，提示重新输入
+            print("输入无效，请输入 'Y' 或 'N'！")
+    except Exception as e:
+        # 捕获其他可能的异常，避免程序崩溃
+        print(f"发生错误：{e}")
+        print("请重新输入 'Y' 或 'N'！")
 
 #MAIN program END
