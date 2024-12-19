@@ -130,7 +130,6 @@ class games():
                 ans_string_output = shiftR(NUMseq)
                 print(f"-{ans_string_output[0]}{ans_string_output[1]}{ans_string_output[2]}{ans_string_output[3]}-", end =' ')
 
-        print(f"\n答案 ={ans}")
         ans_string_input = ListToString(ans)
         player_input = str(input("请输入答案！"))
         
