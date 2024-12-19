@@ -75,24 +75,29 @@ class games():
         progress(player_input, ans, mark)
         return self.score
 
-    def simplemath2(self):
-        ans_string = '2+1'
-        ans = 2 + 1
-        while True:
-            try:
-                player_input = int(input(f'请输入答案 {ans_string} 等于多少: '))
-                break  # 输入正确则退出循环
-            except ValueError:
-                print("输入无效，请输入一个整数！")
+    def NMS_NUMseq(self):
+        def shiftL(numseq):
+            temp = numseq[0] #将第一个元素用temp变数存储起来。
+            for i in range(1, len(numseq)):
+                numseq[i - 1] = numseq[i] #将数列的元素向左位移
+            numseq[-1] = temp #将temp赋予最后一位元素。
+            return numseq
+        NUMseq = [time.sleep(0.25) or Rnumber(0,9) for i in range(4)] #建立数字序列，create NUMsequence
+        DICE = Rnumber(0,2)
+        WHEN_TO_ANSWER = Rnumber(0,3) #在哪个环节进行答题
+        if DICE: #0为shift to left，向左位移
+            for i in range(4):
+                if i == WHEN_TO_ANSWER:
+                    ans = shiftL(NUMseq)
+                    player_input = int(input("请问输入答案！"))
+                    if player_input == ans:
+                        print("对了！")
+                    else:
+                        print("错了！")
+                print(shiftL(NUMseq), end =' ')
+                
 
-        if player_input == ans:
-            self.score += 2
-            print("答案正确！\n")
-            print(f'你目前的總分数为{self.score}\n')
-        else:
-            print(f"答案错误！正确答案是{ans}!\n")
-            print(f'你目前的總分数为{self.score}\n')
-        return self.score
+
     
     def guess_the_number(self):
         print("歡迎來到猜數字遊戲！")
