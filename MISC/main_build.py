@@ -1,20 +1,22 @@
 import time
 import csv 
 import random
-
+import os
 
 #Function definition zone START
 
+def clear(): #用来清除命令行上的讯息
+    os.system('cls')
+
 def loading(waitTIME): 
-    rpack = random.randint
-    progress = [rpack(0,24),rpack(25,49),rpack(50,74), rpack(75,98), '99', '100']
+    progress = [Rnumber(0,24),Rnumber(25,49),Rnumber(50,74), Rnumber(75,98), '99', '100']
     cd = float(waitTIME / 6)
     for i in range(0,6):
         print(f"loading {progress[i]}%")
         time.sleep(cd)
 
 def Rnumber(min,max):   # min为随机范围最小数，max为随机范围最大数
-    currentTIME = float(time.time()) #fetching current time
+    currentTIME = float(time.time()) #fetching current time, use float资料形态是为了让数值变化大一点。
     random.seed(currentTIME) #using current time as random number generator seed.
     randomNUM = random.randint(min,max) #random number are int(min~max)
     return randomNUM #return value
@@ -44,21 +46,16 @@ class games():
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
             ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
             ans = operands1[index] + operands2[index]
-            score = 20
         elif 5 <= DICE <= 8:  # 5-8 为减法 
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数减法
             ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
             ans = operands1[index] - operands2[index]
-            score = 20
         elif DICE == 8: # 8 为乘法
             ans_string = f'{operands1[0]} {operators[2]} {operands2[0]}'
             ans = operands1[0] * operands2[0]
-            score = 20
         else: #9 为整数除法
             ans_string = f'{operands1[0]} {operators[3]} {operands2[0]}'
             ans = operands1[0] // operands2[0]
-            score = 20
-
         dialog = f'请输入答案 {ans_string} 等于多少'
         if DICE == 9:  # 只有在除法情况下提示整数除法
             dialog += ' (整数除法): '
@@ -72,7 +69,7 @@ class games():
             except ValueError:
                 print("输入无效，请输入一个整数！\n")
 
-            GAMEprogress(player_input, ans, score)
+            GAMEprogress(player_input, ans, 20)
             return self.score
 
     def NMS_NUMseq(self):
@@ -145,7 +142,9 @@ class games():
                 print(f"输入错误：{e} 请重新输入！\n")
 
         progress(player_input,ans_string_input,20)
-                
+
+    def democratic_spirit(self):
+
 
 
     
