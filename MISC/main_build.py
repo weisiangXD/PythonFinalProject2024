@@ -106,7 +106,7 @@ class games():
         print("注意：你最多只能猜 10 次！")
 
         # 隨機生成1到100之間的數字
-        number_to_guess = Rnumber(10)
+        number_to_guess = random.randint(1, 100)
         attempts = 0  # 記錄嘗試次數
         max_attempts = 10  # 最大猜測次數
 
@@ -121,7 +121,7 @@ class games():
 
                 # 检查输入是否在动态范围内
                 if guess < y or guess > x:
-                    print(f"超出範圍了！請輸入 {y} 到 {x} 之間的數字。")
+                    print(f"超出範圍了！請輸入 {y} 到 {x} 之間的數字。\n")
                     continue  # 跳回循环让玩家重新输入
 
                 attempts += 1
@@ -157,8 +157,9 @@ class games():
                     print("很遗憾，你已经用尽了所有猜测机会！")
                     print(f"正確答案是 {number_to_guess} 。\n")
                     print(f"你目前的總分数为 {self.score}。\n")
-            except ValueError: #异常处理：捕获非数字输入的错误并提示玩家重新输入正确的数字。
-                print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！")
+            except ValueError:  # 异常处理：捕获非数字输入的错误并提示玩家重新输入正确的数字。
+                print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！\n")
+
 
 
 #HallOfFame()使用手册
