@@ -13,16 +13,10 @@ def loading(waitTIME):
         print(f"loading {progress[i]}%")
         time.sleep(cd)
 
-def Rnumber(mode):   # 1 = 个位数，10=十位数，100=百位数
+def Rnumber(min,max):   # min为随机范围最小数，max为随机范围最大数
     currentTIME = float(time.time()) #fetching current time
     random.seed(currentTIME) #using current time as random number generator seed.
-    match mode:
-        case 1:
-            randomNUM = random.randint(0,9) #random number are int(0~9)
-        case 10:
-            randomNUM = random.randint(10,99) #random number are int(10~99)
-        case 100:
-            randomNUM = random.randint(100,999) #random number are int(100~999)
+    randomNUM = random.randint(min,max) #random number are int(min~max)
     return randomNUM #return value
 
 class games():
@@ -39,12 +33,12 @@ class games():
                 print(f"答案错误！正确答案是 {ans}!")
                 print(f'你目前的分数为 {self.score}')
 
-        DICE = Rnumber(1)  # 0~9
+        DICE = Rnumber(0,9)  # 0~9
         operators = ['+', '-', '*', '/']
-        operands1 = [Rnumber(1), Rnumber(10), Rnumber(100)]
+        operands1 = [Rnumber(0,9), Rnumber(10,99), Rnumber(100,999)]
         time.sleep(0.25)  # 等待0.25秒，不然会出现operand1和operand2相同数值的情况（因为是在同时获得的以时间为随机种子的值）
-        operands2 = [Rnumber(1), Rnumber(10), Rnumber(100)]
-        num10 = Rnumber(10)
+        operands2 = [Rnumber(0,9), Rnumber(10,99), Rnumber(100,999)]
+        num10 = Rnumber(0,9)
         
         if DICE <= 4:  # 0-4 为加法
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
@@ -94,7 +88,7 @@ class games():
         print("如果猜錯了，我會告訴你答案是更大還是更小。")
 
         # 隨機生成1到100之間的數字
-        number_to_guess = Rnumber(10)
+        number_to_guess = Rnumber(1,100)
         attempts = 0  # 記錄嘗試次數
 
         print("請輸入1到100之間的數字。")
@@ -278,7 +272,7 @@ game_over = False
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
 while i > 0 and game_over == False:
-    DICE = Rnumber(1) # random number:0~9
+    DICE = Rnumber(0,9) # random number:0~9
 
     if DICE:
         updated_score = GAMES.simplemath()
