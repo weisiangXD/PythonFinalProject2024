@@ -1,20 +1,22 @@
 import time
 import csv 
 import random
-
+import os
 
 #Function definition zone START
 
+def clear(): #用来清除命令行上的讯息
+    os.system('cls')
+
 def loading(waitTIME): 
-    rpack = random.randint
-    progress = [rpack(0,24),rpack(25,49),rpack(50,74), rpack(75,98), '99', '100']
+    progress = [Rnumber(0,24),Rnumber(25,49),Rnumber(50,74), Rnumber(75,98), '99', '100']
     cd = float(waitTIME / 6)
     for i in range(0,6):
         print(f"loading {progress[i]}%")
         time.sleep(cd)
 
 def Rnumber(min,max):   # min为随机范围最小数，max为随机范围最大数
-    currentTIME = float(time.time()) #fetching current time
+    currentTIME = float(time.time()) #fetching current time, use float资料形态是为了让数值变化大一点。
     random.seed(currentTIME) #using current time as random number generator seed.
     randomNUM = random.randint(min,max) #random number are int(min~max)
     return randomNUM #return value
@@ -147,7 +149,7 @@ class games():
         progress(player_input,ans_string_input,20)
 
     def democratic_spirit(self):
-                    
+
 
 
     
