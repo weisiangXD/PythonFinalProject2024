@@ -24,10 +24,10 @@ class games():
         self.score = score
     
     def simplemath(self):
-        def progress(player_input, ans, mark):
+        def GAMEprogress(player_input, ans, score):
             if player_input == ans:
-                self.score += mark
-                print(f"答案正确！奖励 {mark} 分！\n")
+                self.score += score
+                print(f"答案正确！奖励 {score} 分！\n")
                 print(f'你目前的總分数为 {self.score}。\n')
             else:
                 print(f"答案错误！正确答案是 {ans}!\n")
@@ -44,20 +44,20 @@ class games():
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
             ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
             ans = operands1[index] + operands2[index]
-            mark = 2 if index == 0 else 5 if index == 1 else 10
+            score = 2 if index == 0 else 5 if index == 1 else 10
         elif 5 <= DICE <= 8:  # 5-8 为减法 
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数减法
             ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
             ans = operands1[index] - operands2[index]
-            mark = 2 if index == 0 else 5 if index == 1 else 10
+            score = 2 if index == 0 else 5 if index == 1 else 10
         elif DICE == 8: # 8 为乘法
             ans_string = f'{operands1[0]} {operators[2]} {operands2[0]}'
             ans = operands1[0] * operands2[0]
-            mark = 10
+            score = 10
         else: #9 为整数除法
             ans_string = f'{operands1[0]} {operators[3]} {operands2[0]}'
             ans = operands1[0] // operands2[0]
-            mark = 10
+            score = 10
 
         dialog = f'请输入答案 {ans_string} 等于多少'
         if DICE == 9:  # 只有在除法情况下提示整数除法
@@ -72,7 +72,7 @@ class games():
             except ValueError:
                 print("输入无效，请输入一个整数！")
 
-        progress(player_input, ans, mark)
+        GAMEprogress(player_input, ans, score)
         return self.score
 
     def NMS_NUMseq(self):
@@ -82,19 +82,60 @@ class games():
                 numseq[i - 1] = numseq[i] #将数列的元素向左位移
             numseq[-1] = temp #将temp赋予最后一位元素。
             return numseq
+        def shiftR(numseq):
+            temp = numseq[-1]
+            for i in range(len(numseq) - 2, -1, -1): #range(start,end,step)
+                numseq[i + 1] = numseq[i] #将数列的元素向左位移
+            numseq[0] = temp #将temp赋予最后一位元素。
+            return numseq
+        def ListToString(numseq):
+                result_str = ''
+                for num in numseq:
+                    result_str += str(num)
+                return result_str
+        def progress(playerANS,ANS,score):
+            if playerANS == ANS:
+                print("对了！")
+                self.score += score
+                print(f"你获得了{score}")
+                print(f"目前总分为{self.score}")
+            else:
+                print("错了！")
+                print(f"正确答案是{ANS[0]}{ANS[1]}{ANS[2]}{ANS[3]}")
         NUMseq = [time.sleep(0.25) or Rnumber(0,9) for i in range(4)] #建立数字序列，create NUMsequence
         DICE = Rnumber(0,2)
+        NUMseq_copy = NUMseq.copy() #为答案的结果独立计算所建立，避免相同地址冲突的情况发生
         WHEN_TO_ANSWER = Rnumber(0,3) #在哪个环节进行答题
         if DICE: #0为shift to left，向左位移
+            for _ in range(WHEN_TO_ANSWER+1): #确保迭代至所要求的答案输入次序。
+                print("iterable",_)
+                ans = shiftL(NUMseq_copy)
             for i in range(4):
-                if i == WHEN_TO_ANSWER:
-                    ans = shiftL(NUMseq)
-                    player_input = int(input("请问输入答案！"))
-                    if player_input == ans:
-                        print("对了！")
-                    else:
-                        print("错了！")
-                print(shiftL(NUMseq), end =' ')
+                if i == WHEN_TO_ANSWER:  
+                    shiftL(NUMseq)
+                    print("-????-", end =' ')
+                    continue
+                ans_string_output = shiftL(NUMseq)
+                print(f"-{ans_string_output[0]}{ans_string_output[1]}{ans_string_output[2]}{ans_string_output[3]}-", end =' ')
+            
+        else:
+            for _ in range(WHEN_TO_ANSWER+1): #确保迭代至所要求的答案输入次序。
+                print("iterable",_)
+                ans = shiftR(NUMseq_copy)
+            for i in range(4):
+                if i == WHEN_TO_ANSWER:  
+                    shiftR(NUMseq)
+                    print("-????-", end =' ')
+                    continue
+                ans_string_output = shiftR(NUMseq)
+                print(f"-{ans_string_output[0]}{ans_string_output[1]}{ans_string_output[2]}{ans_string_output[3]}-", end =' ')
+
+        print(f"\n答案 ={ans}")
+        ans_string_input = ListToString(ans)
+        player_input = str(input("请输入答案！"))
+        
+
+        progress(player_input,ans_string_input,10)
                 
 
 
@@ -300,11 +341,11 @@ GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功�
 while i > 0 and game_over == False:
     DICE = Rnumber(0,9) # random number:0~9
 
-    if DICE:
-        updated_score = GAMES.simplemath()
-    else:
-        updated_score = GAMES.guess_the_number()
-    
+    # if DICE:
+    #     updated_score = GAMES.simplemath()
+    # else:
+    #     updated_score = GAMES.guess_the_number()
+    updated_score = GAMES.NMS_NUMseq()
     
 
     loading(1) #等待一秒, loading()内建等待1秒
