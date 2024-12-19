@@ -150,13 +150,13 @@ class games():
 
     
     def guess_the_number(self):
+
         print("歡迎來到猜數字遊戲！")
         print("我會隨機選一個1到100的數字，你需要猜出它是什麼。")
         print("如果猜錯了，我會告訴你答案是更大還是更小。")
         print("注意：你最多只能猜 10 次！")
 
-        # 隨機生成1到100之間的數字
-        number_to_guess = Rnumber(1,100)
+        number_to_guess = Rnumber(2,99) # 隨機生成1到100之間的數字,不包括1和100
         attempts = 0  # 記錄嘗試次數
         max_attempts = 10  # 最大猜測次數
 
@@ -207,6 +207,7 @@ class games():
                     print("很遗憾，你已经用尽了所有猜测机会！")
                     print(f"正確答案是 {number_to_guess} 。\n")
                     print(f"你目前的總分数为 {self.score}。\n")
+                    
             except ValueError:  # 异常处理：捕获非数字输入的错误并提示玩家重新输入正确的数字。
                 print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！\n")
 
