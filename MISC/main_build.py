@@ -27,7 +27,7 @@ class games():
         def progress(player_input, ans, mark):
             if player_input == ans:
                 self.score += mark
-                print("答案正确！\n")
+                print(f"答案正确！奖励 {mark} 分！\n")
                 print(f'你目前的總分数为 {self.score}。\n')
             else:
                 print(f"答案错误！正确答案是 {ans}!\n")
@@ -87,11 +87,11 @@ class games():
 
         if player_input == ans:
             self.score += 2
-            print("答案正确！")
-            print(f'你目前的分数为{self.score}')
+            print("答案正确！\n")
+            print(f'你目前的總分数为{self.score}\n')
         else:
-            print(f"答案错误！正确答案是{ans}!")
-            print(f'你目前的分数为{self.score}')
+            print(f"答案错误！正确答案是{ans}!\n")
+            print(f'你目前的總分数为{self.score}\n')
         return self.score
     
     def guess_the_number(self):
