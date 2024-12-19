@@ -87,11 +87,11 @@ class games():
 
         if player_input == ans:
             self.score += 2
-            print("答案正确！奖励 2 分！\n")
-            print(f'你目前的總分数为{self.score}。\n')
+            print("答案正确！")
+            print(f'你目前的分数为{self.score}')
         else:
-            print(f"答案错误！正确答案是{ans}!\n")
-            print(f'你目前的總分数为{self.score}。\n')
+            print(f"答案错误！正确答案是{ans}!")
+            print(f'你目前的分数为{self.score}')
         return self.score
     
     def guess_the_number(self):
