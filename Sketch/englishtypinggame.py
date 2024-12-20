@@ -16,27 +16,27 @@ def main():
 
     print("Press 'Enter' when ready")
 
-    input()
+    input() # waits on player to input "Enter" and then it starts the game
 
-    score = 0
-    start_time = time.time()
-    elapsed_time = 0
+    score = 0 # score starts out at zero
+    start_time = time.time() # implements the the time given to get as many correct as you can
+    elapsed_time = 0 # pretty self-explanatory
 
     print("Game start!")
 
-    while elapsed_time < 30:
-        word = random.choice(dictionary)
-        print(word)
-        user_input = input("Your answer: ").strip()
+    while elapsed_time < 30: # runs the following while there is time left (in this case, under 30 seconds)
+        word = random.choice(dictionary) # chooses a random value in the dictionary provided above
+        print(word) # shows the random word
+        user_input = input("Your answer: ").strip() # takes the players input. ".strip" removes any extra spaces that the player puts in
 
-        if user_input == word:
-            score += 3 if " " in word else 1
+        if user_input == word: # if the player inputs the correct word
+            score += 3 if " " in word else 1 # adds 3 points if it is a phrase (in this case it's looking if it has spaces in between words) otherwise it adds 1 point
             print("Correct!")
         else:
-            score -= 1
+            score -= 1 # if incorrect takes away 1 point for either option
             print("Incorrect!")
 
-        dictionary.remove(word)
+        dictionary.remove(word) # deletes the word/phrase what was randomly chosen
         print(f"Current score: {score}\n")
 
         elapsed_time = time.time() - start_time
