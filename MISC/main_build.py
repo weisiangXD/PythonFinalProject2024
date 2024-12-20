@@ -510,14 +510,20 @@ game_over = False
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
 while i > 0 and game_over == False:
-    DICE = Rnumber(0,9) # random number:0~9
+    DICE = Rnumber(1,100) # random number:1~100
 
-    # if DICE:
-    #     updated_score = GAMES.simplemath()
-    # else:
-    #     updated_score = GAMES.guess_the_number()
-    #updated_score = GAMES.NMS_NUMseq()
-    updated_score = GAMES.v_code()#delete
+    if DICE <= 20: # 20%的机率玩英文打字游戏
+        updated_score = GAMES.EnglishTypingGame()
+    elif 21 <= DICE <= 40: # 20%的机率玩猜数字游戏
+        updated_score = GAMES.guess_the_number()
+    elif 41 <= DICE <= 60: # 20%的机率玩NMS_NUMseq游戏
+        updated_score = GAMES.NMS_NUMseq()
+    elif 61 <= DICE <= 80: # 20%的机率玩NotNot游戏
+        updated_score = GAMES.NotNot()
+    elif 81 <= DICE <= 90: # 9%的机率玩验证码游戏
+        updated_score = GAMES.v_code()
+    else: # 9%的机率玩简单数学题
+        updated_score = GAMES.simplemath()
 
     loading(1) #等待一秒, loading()内建等待1秒
     print("")
