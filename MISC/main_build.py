@@ -4,14 +4,9 @@ import random
 import os
 
 #Function definition zone START
+
 def clear(): #用来清除命令行上的讯息
     os.system('cls')
-
-def Rnumber(min,max):   # min为随机范围最小数，max为随机范围最大数
-    currentTIME = float(time.time()) #fetching current time, use float资料形态是为了让数值变化大一点。
-    random.seed(currentTIME) #using current time as random number generator seed.
-    randomNUM = random.randint(min,max) #random number are int(min~max)
-    return randomNUM #return value
 
 def loading(waitTIME): 
     progress = [Rnumber(0,24),Rnumber(25,49),Rnumber(50,74), Rnumber(75,98), '99', '100']
@@ -19,6 +14,12 @@ def loading(waitTIME):
     for i in range(0,6):
         print(f"loading {progress[i]}%")
         time.sleep(cd)
+
+def Rnumber(min,max):   # min为随机范围最小数，max为随机范围最大数
+    currentTIME = float(time.time()) #fetching current time, use float资料形态是为了让数值变化大一点。
+    random.seed(currentTIME) #using current time as random number generator seed.
+    randomNUM = random.randint(min,max) #random number are int(min~max)
+    return randomNUM #return value
 
 class games():
     def __init__(self,score): #initialize user data.
@@ -269,6 +270,109 @@ class games():
 
         # 顯示玩家最終的分數
         print(f"你目前的總分数为 {self.score}。\n")
+
+    def NotNot(self):
+        key_to_direction = {
+            "w": "Up",
+            "s": "Down",
+            "a": "Left",
+            "d": "Right"
+        }
+
+        directions = [
+            ("Left", "a"),
+            ("Right", "d"),
+            ("Up", "w"),
+            ("Down", "s")
+        ]
+
+        game_duration = 30
+
+        print("Instructions (指示):")
+        print("\n'Left' means type 'a', 'Not Left' means type anything BUT 'a'.")
+        print('“左”表示鍵入“a”，“非左”表示鍵入除“a”以外的任何內容。')
+        print("\nw = up : s = down : a = left : d = right")
+        print("\nThe game lasts 30 seconds. The timer starts after when you press 'Enter'!")
+        print('比賽持續30秒。當您按下“Enter”鍵後，計時器開始計時&#xff01;')
+        print("\nPress Enter when ready")
+        print('準備好後按 Enter 鍵')
+        print("\nInspired by Mobile game 'Not Not'")
+        print("\n")
+
+        start_time = time.time()
+        score = self.score  
+        while time.time() - start_time < game_duration:
+            is_not = random.choice([True, False])
+            direction, correct_key = random.choice(directions)
+            instruction = f"Not {direction}" if is_not else direction
+
+            print(f"\nInstruction: {instruction}")
+            user_input = input("Your move: ").strip()
+
+            if is_not:
+                if user_input != correct_key:
+                    print("Correct!")
+                    score += 1
+                else:
+                    print("Wrong!")
+                    score -= 1
+            else:
+                if user_input == correct_key:
+                    print("Correct!")
+                    score += 1
+                else:
+                    print("Wrong!")
+                    score -= 1
+
+        print("\nTime's up!")
+        print(f"Your score is: {score}")
+        self.score = score
+
+    def EnglishTypingGame(self):
+
+        dictionary = [
+            "cat", "dog", "elephant", "lion", "tiger", "bear", "giraffe", "zebra", "rabbit", "horse",
+            "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "January", "February",
+            "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",
+            "apple", "banana", "orange", "grape", "mango", "pineapple", "pear", "peach", "watermelon",
+            "strawberry", "phone", "laptop", "desk", "chair", "pen", "notebook", "bag", "car", "bike",
+            "clock", "television", "remote", "bottle", "glass", "mirror", "pillow", "lamp", "shoes", "door",
+            "window", "Instagram", "TikTok", "WhatsApp", "Snapchat", "YouTube", "sports", "badminton",
+            "basketball", "table tennis", "volleyball", "rugby", "swimming", "I study at NTOU", "I love Taiwan",
+            "I major in Computer Science"
+        ]
+
+        print("Type out as many of the displayed words as quickly and correctly as you can. CAPITAL LETTER SENSITIVE!!\n" +
+              "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n")
+        print("Press 'Enter' when ready")
+        input()
+
+        start_time = time.time()
+        elapsed_time = 0
+        print("Game start!")
+
+        while elapsed_time < 30:
+            word = random.choice(dictionary)
+            print(word)
+            user_input = input("Your answer: ").strip()
+
+            if user_input == word:
+                points = 3 if " " in word else 1
+                self.score += points
+                print(f"Correct! You earned {points} points.")
+            else:
+                self.score -= 1
+                print("Incorrect! You lost 1 point.")
+
+            dictionary.remove(word)
+            print(f"Current score: {self.score}\n")
+
+            elapsed_time = time.time() - start_time
+
+        print("Time's up!")
+        print(f"Your final score is: {self.score}\n")
+
+
 
 #HallOfFame()使用手册
 #主资料变数为列表形态 HallOfFame().data，里面存了三笔资料: UID,uname,score，分别对用户ID，用户名称以及用户分数。
