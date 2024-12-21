@@ -26,6 +26,7 @@ class games():
         self.score = score
     
     def simplemath(self):
+        clear() #清除屏幕
         def GAMEprogress(player_input, ans, score):
             if player_input == ans:
                 self.score += score
@@ -73,8 +74,8 @@ class games():
             return self.score
 
     def NMS_NUMseq(self):
-
-        print("歡迎來到數列解密遊戲！")
+        clear() #清除屏幕
+        print("\n歡迎來到數列解密遊戲！")
         print("數組之間是有規律，請猜出-????-裏是什麼。")
         print("注意：1題只有 1 次機會！")
 
@@ -149,8 +150,8 @@ class games():
 
     
     def guess_the_number(self):
-
-        print("歡迎來到猜數字遊戲！")
+        clear() #清除屏幕
+        print("\n歡迎來到猜數字遊戲！")
         print("我會隨機選一個1到100的數字，你需要猜出它是什麼。")
         print("如果猜錯了，我會告訴你答案是更大還是更小。")
         print("注意：你最多只能猜 10 次！")
@@ -286,7 +287,7 @@ class games():
             ("Down", "s")
         ]
 
-        game_duration = 30
+        game_duration = 10
 
         print("Instructions (指示):")
         print("\n'Left' means type 'a', 'Not Left' means type anything BUT 'a'.")
@@ -351,7 +352,7 @@ class games():
         elapsed_time = 0
         print("Game start!")
 
-        while elapsed_time < 30:
+        while elapsed_time < 10:
             word = random.choice(dictionary)
             print(word)
             user_input = input("Your answer: ").strip()
@@ -384,16 +385,16 @@ class HallOfFame():
         self.data = []
         self.seq = 1 #Initialize sequence number, use for determine amount of data has been saved.
 
-    def add(self, uname, score):
-        self.load("leaderboard.csv") #添加分数之前先读取文件。
+    def add(self, filename, uname, score):
+        self.load(filename) #添加分数之前先读取文件。 
         self.data.append({'UID': self.seq, 'uname': uname, 'score': score})
-        self.seq += 1
 
-    def sort(self):
+    def sort(self): #排序
         self.data = sorted(self.data, key=lambda x: x['score'], reverse=True) #key=数值大小做排序，reverse=True表示从小排到大
 
     def save(self, filename):
-        with open(filename, 'w', newline='') as csvfile: # 'w' 模式为从文件的头部开始写入，若文件不存在，则创建文件。
+        filepath = self.get_file_path(filename) #获取文件路径
+        with open(filepath, 'w', newline='') as csvfile: # 'w' 模式为从文件的头部开始写入，若文件不存在，则创建文件。
             fieldnames = ['UID', 'uname', 'score']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader() #建立header row
@@ -401,8 +402,9 @@ class HallOfFame():
                 writer.writerow(DATA) #写入资料
 
     def load(self, filename):
+        filepath = self.get_file_path(filename) #获取文件路径
         try:
-            with open(filename, 'r') as READfile: # 'r' 模式为从文件的开头读取
+            with open(filepath, 'r') as READfile: # 'r' 模式为从文件的开头读取
                 reader = csv.DictReader(READfile)
                 max_seq = 0 #创建最大序号变数，用于找出文件内已存在的资料笔数
                 self.data = [] #初始化主资料列表
@@ -413,22 +415,22 @@ class HallOfFame():
                         max_seq = data_row['UID']
                 self.seq = max_seq + 1 #从最新的文件资料从找出记录最大笔数后+1，确保self.seq不与文件内的序号冲突
         except:
-            self.save("leaderboard.csv")
-            print("\n排行榜资料丢失！请向管理员反映！\n")
+            self.save(filename) #如果文件不存在，就创建一个新的文件
+            print("\n看来你是我们第一位玩家喔！\n")
 
-    def display(self): #打印出排行榜
-        self.load("leaderboard.csv") #加载文件
+    def display(self, filename): #打印出排行榜
+        self.load(filename) #加载文件
         self.sort() #排序
-        print("\n[HOF]排行榜：", end = "\n")
-        top = 1
+        print("\n[HOF]排行榜：", end = "\n") #打印排行榜标题
+        top = 1 #初始化排名计数器
         for printer in self.data:
             result = f"\n[HOF]|TOP {top:>1}    |Player: {printer['uname']:<12}    |Score：{printer['score']:<6}"
             print(result, end="")
             top += 1
         print("\n")
 
-    def save_data(self,mode,score): #功能模式 10086为管理员模式，可以手动添加分数，1为正常模式。
-        self.load("leaderboard.csv")
+    def save_data(self, filename, mode, score): #filename=文件的名称 ;功能模式 10086为管理员模式，可以手动添加分数，1为正常模式。
+        self.load(filename)
         while 1: #无限循环直到我想干的事完成   
             if mode == 10086:
                 playerNAME = str(input("\n[HOF_ADMIN]请输入您的用户名称\n"))
@@ -443,13 +445,18 @@ class HallOfFame():
 
         if mode == 10086:
             playerSCORE = float(input("\n[HOF_ADMIN]输入用户分数\n"))
-            self.add(playerNAME, playerSCORE)
+            self.add(filename, playerNAME, playerSCORE)
         else:
-            self.add(playerNAME, score)
+            self.add(filename, playerNAME, score)
         self.sort()
-        self.save("leaderboard.csv")
-        print(f"\n[HOF]玩家{playerNAME}获得的总分是{score}恭喜成为我们第{self.seq}入榜的玩家！")
+        self.save(filename)
+        print(f"\n[HOF]玩家{playerNAME}获得的总分是{score}恭喜成为我们第{self.seq}位入榜的玩家！")
+        self.seq += 1 #每次添加完资料后，序号+1，确保不会重复。
         print("\n[HOF]您的分数已成功存入名人堂！")
+    
+    def get_file_path(self, filename): #获取文件路径实现在不同的电脑都能正确地访问到子目录里的文件。
+        base_dir = os.path.dirname(os.path.abspath(__file__)) #获取当前文件的绝对路径
+        return os.path.join(base_dir, 'leaderboard', filename) #返回文件路径
 
     #管理员使用的后台程序。
     def leaderboard_console(self): 
@@ -466,8 +473,10 @@ class HallOfFame():
 
 #Menu START
 
-while 1:
-    option = int(input("↓我是菜单↓\n1.开始游戏\n2.查看分数排行榜\n3.查看Credit\n"))
+solo = False #当solo = False时为混合游戏模式
+while 1: #无限循环直到我想干的事完成
+    clear()
+    option = int(input("↓我是菜单↓\n1.开始游戏\n2.游玩特定的小游戏\n3.查看分数排行榜\n4.查看Credit\n")) #选择功能
 
     if option > 3 and option != 10086:
         print("未知功能！请重新选取！")
@@ -477,10 +486,20 @@ while 1:
         case 1: #proceed to MAIN program section
             break 
         
-        case 2: #查看名人堂。
+        case 2:
+            solo = True
+            while 1:
+                clear() #清除屏幕
+                option_solo = int(input("↓我是小游戏的选择菜单↓\n1.英文打字游戏\n2.猜数字游戏\n3.NoManSky数字序列解谜游戏\n4.NotNot游戏\n5.验证码游戏\n6.简单数学题\n")) #选择想要solo的游戏
+                if 1 < option_solo > 6:
+                    print("未知游戏！请重新选取！")
+                    continue
+                break #跳出循环
+            break #跳出循环
+        case 3: #查看名人堂。
             HallOfFame().display()
 
-        case 3: #Credit
+        case 4: #Credit
             print("")
             print("-制作人员-")
             print("队名：APPLE（第十九组）")
@@ -493,9 +512,6 @@ while 1:
             continue
 
 
-
-
-
     #print("欢迎游玩HowFastAreYou小游戏，在这游戏里你需要成功通过5个小关卡！\n")
     #print("以获得更高的分数与其他玩家一较高下吧！\n")
     
@@ -503,13 +519,10 @@ while 1:
 
 #MAIN program START
 
-i = 5
-game_over = False
-
-
+i = 1 #游戏次数
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
-while i > 0 and game_over == False:
+while i > 0 and solo == False:
     DICE = Rnumber(1,100) # random number:1~100
 
     if DICE <= 20: # 20%的机率玩英文打字游戏
@@ -526,30 +539,55 @@ while i > 0 and game_over == False:
         updated_score = GAMES.simplemath()
 
     loading(1) #等待一秒, loading()内建等待1秒
-    print("")
+    print("") #空行
     i -= 1
 
-print(f"你在本次游玩中获得了 {GAMES.score} 分")
-print("恭喜！您已获得进入名人堂的资格，是否将自己的分数与其他人一较高下？")
+while i > 0 and solo == True:
+    if option_solo == 1:
+        updated_score = GAMES.EnglishTypingGame() #英文打字游戏
+    elif option_solo == 2:
+        updated_score = GAMES.guess_the_number()#猜数字游戏
+    elif option_solo == 3:
+        updated_score = GAMES.NMS_NUMseq()#NoManSky数字序列解谜游戏
+    elif option_solo == 4:
+        updated_score = GAMES.NotNot()#NotNot游戏
+    elif option_solo == 5:
+        updated_score = GAMES.v_code()#验证码游戏
+    else:
+        updated_score = GAMES.simplemath()#简单数学题
 
-while True:
-    try:
-        option = input("'Yes' or 'No' ? Y/N: ").strip()  # 去除多余空格
-        if option in ['N', 'n']:
-            print(f"您的最终分数是: {GAMES.score}")
-            print("您的分数已被初始化，感谢游玩！")
-            GAMES.score = 0
-            break
-        elif option in ['Y', 'y']:
-            HallOfFame().save_data(1, GAMES.score)  # 保存分数到名人堂
-            print("您的分数已成功存入名人堂！")
-            break
-        else:
-            # 如果用户输入无效值，提示重新输入
-            print("输入无效，请输入 'Y' 或 'N'！")
-    except Exception as e:
-        # 捕获其他可能的异常，避免程序崩溃
-        print(f"发生错误：{e}")
-        print("请重新输入 'Y' 或 'N'！")
+    loading(1) #等待一秒, loading()内建等待1秒
+    print("") #空行
+    i -= 1
+
+#分数结算START
+print(f"你在本次游玩中获得了 {GAMES.score} 分")
+if GAMES.score > 0:
+    print("恭喜！您已获得进入名人堂的资格，是否将自己的分数与其他人一较高下？")
+
+    while True:
+        try:
+            correspoding_leaderboard = {0:"leaderboard.csv", 1:"EnglishTypingGame_leaderboard.csv", 2:"guess_the_number_leaderboard.csv", 3:"NMS_NUMseq_leaderboard.csv", 4:"NotNot_leaderboard.csv", 5:"v_code_leaderboard.csv", 6:"simplemath_leaderboard.csv"}
+            option = input("'Yes' or 'No' ? Y/N: ").strip()  # 去除多余空格
+            if option in ['N', 'n']:
+                print(f"您的最终分数是: {GAMES.score}")
+                print("您的分数已被初始化，感谢游玩！")
+                GAMES.score = 0
+                break
+            elif option in ['Y', 'y']:
+                if solo == True:
+                    HallOfFame().save_data(correspoding_leaderboard[option_solo],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score
+                else:    
+                    HallOfFame().save_data(correspoding_leaderboard[0],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score
+                print("您的分数已成功存入名人堂！")
+                break
+            else:
+                # 如果用户输入无效值，提示重新输入
+                print("输入无效，请输入 'Y' 或 'N'！")
+        except Exception as e:
+            # 捕获其他可能的异常，避免程序崩溃
+            print(f"发生错误：{e}")
+            print("请重新输入 'Y' 或 'N'！")
+#分数结算END
 
 #MAIN program END
