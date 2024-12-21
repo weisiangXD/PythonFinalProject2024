@@ -96,7 +96,7 @@ class games():
             for num in numseq:
                 result_str += str(num)
             return result_str
-        def progress(playerANS,ANS,score):
+        def GAMEprogress(playerANS,ANS,score):
             if playerANS == ANS:
                 print("对了！")
                 self.score += score
@@ -142,7 +142,7 @@ class games():
             except ValueError as e:
                 print(f"输入错误：{e} 请重新输入！\n")
 
-        progress(player_input,ans_string_input,20)
+        GAMEprogress(player_input,ans_string_input,20)
 
     #def democratic_spirit(self):
 

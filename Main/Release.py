@@ -96,7 +96,7 @@ class games():
             for num in numseq:
                 result_str += str(num)
             return result_str
-        def progress(playerANS,ANS,score):
+        def GAMEprogress(playerANS,ANS,score):
             if playerANS == ANS:
                 print("对了！")
                 self.score += score
@@ -142,7 +142,7 @@ class games():
             except ValueError as e:
                 print(f"输入错误：{e} 请重新输入！\n")
 
-        progress(player_input,ans_string_input,20)
+        GAMEprogress(player_input,ans_string_input,20)
 
     #def democratic_spirit(self):
 
@@ -424,10 +424,13 @@ class HallOfFame():
         print("\n[HOF]排行榜：", end = "\n") #打印排行榜标题
         top = 1 #初始化排名计数器
         for printer in self.data:
-            result = f"\n[HOF]|TOP {top:>1}    |Player: {printer['uname']:<12}    |Score：{printer['score']:<6}"
+            result = f"     \n[HOF]|TOP {top:>1}    |Player: {printer['uname']:<12}    |Score：{printer['score']:<6}"
             print(result, end="")
             top += 1
-        print("\n")
+        if self.data == []: #如果没有资料，打印出没有资料的讯息。
+            print("\n[HOF]看来排行榜是空的！接受挑战，成为第一位玩家吧！")
+        print("\n[HOF]排行榜已显示完毕！输入ENTER返回主菜单！")
+        input()
 
     def save_data(self, filename, mode, score): #filename=文件的名称 ;功能模式 10086为管理员模式，可以手动添加分数，1为正常模式。
         self.load(filename)
@@ -460,11 +463,16 @@ class HallOfFame():
 
     #管理员使用的后台程序。
     def leaderboard_console(self): 
-        option = int(input("\n[HOF]↓我是菜单(排行榜debugger)↓\n{:<5}1.添加分数\n{:<5}2.查看排行榜\n".format('','')))
+        clear() #清一清屏幕
+        option = int(input("\n[HOF_ADMIN]↓我是菜单(排行榜debugger)↓\n{:<5}1.添加分数\n{:<5}2.查看排行榜\n".format('','')))
+        correspoding_leaderboard = {1:"leaderboard.csv", 2:"EnglishTypingGame_leaderboard.csv", 3:"guess_the_number_leaderboard.csv", 4:"NMS_NUMseq_leaderboard.csv", 5:"NotNot_leaderboard.csv", 6:"v_code_leaderboard.csv", 7:"simplemath_leaderboard.csv"}
+        
 
         match option:
             case 1:
-                self.save_data(10086, 0)
+                print("\n[HOF_ADMIN]↓我是菜单(排行榜debugger)↓\n{:<5}1.排行榜\n{:<5}2.英文打字游戏排行榜\n{:<5}3.猜数字游戏排行榜\n{:<5}4.NoManSky数字序列解谜游戏排行榜\n{:<5}5.NotNot游戏排行榜\n{:<5}6.验证码游戏排行榜\n{:<5}7.简单数学题排行榜\n".format('','','','','','',''))
+                option_leaderboard = int(input())
+                self.save_data(correspoding_leaderboard[option_leaderboard], 10086, 0) #10086为管理员模式
             case 2:
                 self.display()
 
@@ -472,10 +480,9 @@ class HallOfFame():
 #Function definition zone END
 
 #Menu START
-
+clear() #清除屏幕
 solo = False #当solo = False时为混合游戏模式
 while 1: #无限循环直到我想干的事完成
-    clear()
     option = int(input("↓我是菜单↓\n1.开始游戏\n2.游玩特定的小游戏\n3.查看分数排行榜\n4.查看Credit\n")) #选择功能
 
     if option > 3 and option != 10086:
@@ -497,7 +504,11 @@ while 1: #无限循环直到我想干的事完成
                 break #跳出循环
             break #跳出循环
         case 3: #查看名人堂。
-            HallOfFame().display()
+            print("\n[HOF]↓我是菜单(排行榜)↓\n{:<5}1.排行榜\n{:<5}2.英文打字游戏排行榜\n{:<5}3.猜数字游戏排行榜\n{:<5}4.NoManSky数字序列解谜游戏排行榜\n{:<5}5.NotNot游戏排行榜\n{:<5}6.验证码游戏排行榜\n{:<5}7.简单数学题排行榜\n".format('','','','','','',''))
+            option_leaderboard = int(input())
+            correspoding_leaderboard = {1:"leaderboard.csv", 2:"EnglishTypingGame_leaderboard.csv", 3:"guess_the_number_leaderboard.csv", 4:"NMS_NUMseq_leaderboard.csv", 5:"NotNot_leaderboard.csv", 6:"v_code_leaderboard.csv", 7:"simplemath_leaderboard.csv"}
+            HallOfFame().display(correspoding_leaderboard[option_leaderboard])
+            continue
 
         case 4: #Credit
             print("")
@@ -567,7 +578,7 @@ if GAMES.score > 0:
 
     while True:
         try:
-            correspoding_leaderboard = {0:"leaderboard.csv", 1:"EnglishTypingGame_leaderboard.csv", 2:"guess_the_number_leaderboard.csv", 3:"NMS_NUMseq_leaderboard.csv", 4:"NotNot_leaderboard.csv", 5:"v_code_leaderboard.csv", 6:"simplemath_leaderboard.csv"}
+            correspoding_leaderboard = {1:"leaderboard.csv", 2:"EnglishTypingGame_leaderboard.csv", 3:"guess_the_number_leaderboard.csv", 4:"NMS_NUMseq_leaderboard.csv", 5:"NotNot_leaderboard.csv", 6:"v_code_leaderboard.csv", 7:"simplemath_leaderboard.csv"}
             option = input("'Yes' or 'No' ? Y/N: ").strip()  # 去除多余空格
             if option in ['N', 'n']:
                 print(f"您的最终分数是: {GAMES.score}")
@@ -576,9 +587,9 @@ if GAMES.score > 0:
                 break
             elif option in ['Y', 'y']:
                 if solo == True:
-                    HallOfFame().save_data(correspoding_leaderboard[option_solo],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score
+                    HallOfFame().save_data(correspoding_leaderboard[option_solo+1],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score, 为什么要+1呢 因为option_solo是从1开始的（其实是来不及改了xd）
                 else:    
-                    HallOfFame().save_data(correspoding_leaderboard[0],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score
+                    HallOfFame().save_data(correspoding_leaderboard[1],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score
                 print("您的分数已成功存入名人堂！")
                 break
             else:
