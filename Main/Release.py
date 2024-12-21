@@ -530,42 +530,39 @@ while 1: #无限循环直到我想干的事完成
 
 #MAIN program START
 
-i = 1 #游戏次数
+clear() #清一清
+i = 1 #游戏关卡数
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
-while i > 0 and solo == False:
-    DICE = Rnumber(1,100) # random number:1~100
-
-    if DICE <= 20: # 20%的机率玩英文打字游戏
-        updated_score = GAMES.EnglishTypingGame()
-    elif 21 <= DICE <= 40: # 20%的机率玩猜数字游戏
-        updated_score = GAMES.guess_the_number()
-    elif 41 <= DICE <= 60: # 20%的机率玩NMS_NUMseq游戏
-        updated_score = GAMES.NMS_NUMseq()
-    elif 61 <= DICE <= 80: # 20%的机率玩NotNot游戏
-        updated_score = GAMES.NotNot()
-    elif 81 <= DICE <= 90: # 9%的机率玩验证码游戏
-        updated_score = GAMES.v_code()
-    else: # 9%的机率玩简单数学题
-        updated_score = GAMES.simplemath()
-
-    loading(1) #等待一秒, loading()内建等待1秒
-    print("") #空行
-    i -= 1
-
-while i > 0 and solo == True:
-    if option_solo == 1:
-        updated_score = GAMES.EnglishTypingGame() #英文打字游戏
-    elif option_solo == 2:
-        updated_score = GAMES.guess_the_number()#猜数字游戏
-    elif option_solo == 3:
-        updated_score = GAMES.NMS_NUMseq()#NoManSky数字序列解谜游戏
-    elif option_solo == 4:
-        updated_score = GAMES.NotNot()#NotNot游戏
-    elif option_solo == 5:
-        updated_score = GAMES.v_code()#验证码游戏
+while i > 0:
+    if solo:
+        if option_solo == 1:
+            updated_score = GAMES.EnglishTypingGame() #英文打字游戏
+        elif option_solo == 2:
+            updated_score = GAMES.guess_the_number()#猜数字游戏
+        elif option_solo == 3:
+            updated_score = GAMES.NMS_NUMseq()#NoManSky数字序列解谜游戏
+        elif option_solo == 4:
+            updated_score = GAMES.NotNot()#NotNot游戏
+        elif option_solo == 5:
+            updated_score = GAMES.v_code()#验证码游戏
+        else:
+            updated_score = GAMES.simplemath()#简单数学题
     else:
-        updated_score = GAMES.simplemath()#简单数学题
+        DICE = Rnumber(1,100) # random number:1~100
+
+        if DICE <= 20: # 20%的机率玩英文打字游戏
+            updated_score = GAMES.EnglishTypingGame()
+        elif 21 <= DICE <= 40: # 20%的机率玩猜数字游戏
+            updated_score = GAMES.guess_the_number()
+        elif 41 <= DICE <= 60: # 20%的机率玩NMS_NUMseq游戏
+            updated_score = GAMES.NMS_NUMseq()
+        elif 61 <= DICE <= 80: # 20%的机率玩NotNot游戏
+            updated_score = GAMES.NotNot()
+        elif 81 <= DICE <= 90: # 9%的机率玩验证码游戏
+            updated_score = GAMES.v_code()
+        else: # 9%的机率玩简单数学题
+            updated_score = GAMES.simplemath()
 
     loading(1) #等待一秒, loading()内建等待1秒
     print("") #空行
@@ -591,6 +588,7 @@ if GAMES.score > 0:
                 else:    
                     HallOfFame().save_data(correspoding_leaderboard[1],1, GAMES.score)  # 保存分数到名人堂，需要的参数为 filename, mode, score
                 print("您的分数已成功存入名人堂！")
+                HallOfFame().display(correspoding_leaderboard[option_solo+1 if solo else 1]) #显示排行榜
                 break
             else:
                 # 如果用户输入无效值，提示重新输入
