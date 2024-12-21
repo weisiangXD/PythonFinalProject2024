@@ -272,14 +272,8 @@ class games():
         # 顯示玩家最終的分數
         print(f"你目前的總分数为 {self.score}。\n")
 
-    def NotNot(self):
-        key_to_direction = {
-            "w": "Up",
-            "s": "Down",
-            "a": "Left",
-            "d": "Right"
-        }
 
+    def NotNot(self):
         directions = [
             ("Left", "a"),
             ("Right", "d"),
@@ -293,41 +287,49 @@ class games():
         print("\n'Left' means type 'a', 'Not Left' means type anything BUT 'a'.")
         print('“左”表示鍵入“a”，“非左”表示鍵入除“a”以外的任何內容。')
         print("\nw = up : s = down : a = left : d = right")
-        print("\nThe game lasts 30 seconds. The timer starts after when you press 'Enter'!")
-        print('比賽持續30秒。當您按下“Enter”鍵後，計時器開始計時&#xff01;')
+        print("\nThe game lasts 10 seconds. The timer starts after you press 'Enter'!")
+        print('比賽持續10秒。當您按下“Enter”鍵後，計時器開始計時！')
         print("\nPress Enter when ready")
         print('準備好後按 Enter 鍵')
         print("\nInspired by Mobile game 'Not Not'")
         print("\n")
 
+        input()
+
         start_time = time.time()
-        score = self.score  
+        score = self.score
+
         while time.time() - start_time < game_duration:
             is_not = random.choice([True, False])
             direction, correct_key = random.choice(directions)
             instruction = f"Not {direction}" if is_not else direction
 
             print(f"\nInstruction: {instruction}")
-            user_input = input("Your move: ").strip()
+            user_input = input("Your move: ").lower()
 
-            if is_not:
-                if user_input != correct_key:
-                    print("Correct!")
-                    score += 1
-                else:
-                    print("Wrong!")
-                    score -= 1
+            if user_input == "":
+                print("Wrong!")
+                score -= 1
             else:
-                if user_input == correct_key:
-                    print("Correct!")
-                    score += 1
+                if is_not:
+                    if user_input != correct_key:
+                        print("Correct!")
+                        score += 1
+                    else:
+                        print("Wrong!")
+                        score -= 1
                 else:
-                    print("Wrong!")
-                    score -= 1
+                    if user_input == correct_key:
+                        print("Correct!")
+                        score += 1
+                    else:
+                        print("Wrong!")
+                        score -= 1
 
         print("\nTime's up!")
         print(f"Your score is: {score}")
         self.score = score
+
 
     def EnglishTypingGame(self):
 
@@ -344,7 +346,9 @@ class games():
         ]
 
         print("Type out as many of the displayed words as quickly and correctly as you can. CAPITAL LETTER SENSITIVE!!\n" +
-              "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n")
+              "請儘快並正確地輸入顯示的文字。注意大小寫敏感！\n" + 
+              "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n" +
+              "每個單詞得1分，每個短語得3分。輸錯任何一個將扣1分。\n")
         print("Press 'Enter' when ready")
         input()
 
@@ -352,10 +356,10 @@ class games():
         elapsed_time = 0
         print("Game start!")
 
-        while elapsed_time < 10:
+        while elapsed_time < 15:
             word = random.choice(dictionary)
             print(word)
-            user_input = input("Your answer: ").strip()
+            user_input = input("Your answer: ")
 
             if user_input == word:
                 points = 3 if " " in word else 1
