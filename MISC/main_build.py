@@ -212,11 +212,14 @@ class games():
                 print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！\n")
 
     def v_code(self):# verification_code(驗證碼)
-        n = 4 # 所要猜的數量
-        def show_numbers(): # 顯示四個隨機數字的函數
-            numbers = [Rnumber(0, 9) for _ in range(n)] # 隨機生成n個 0 到 9 之間的數字
+        
+        n = 6 # 所要猜的數量
+
+        def show_numbers(): # 顯示n個隨機數字的函數
+            numbers = [time.sleep(0.25) or Rnumber(0, 9) for _ in range(n)] # 隨機生成n個 0 到 9 之間的數字
             
             # 顯示這些數字，並將它們合併成一個無空格的字符串
+            
             print("".join(map(str, numbers)))  # 將數字轉換為字符串並顯示
             time.sleep(2)  # 等待2秒鐘讓玩家記住數字
             print("\n" * 50)  # 清空屏幕
@@ -234,20 +237,15 @@ class games():
         print("歡迎來到 '驗證碼' 遊戲！")  # 顯示遊戲歡迎語
         print(f"接下來會隨機顯示 {n} 個數字，請一模一樣寫出來。")
         print("注意：數字只會顯示2秒！\n")
-        print("請輸入 1 進入倒數，3秒後開始遊戲。")  # 提示玩家輸入 1 來開始遊戲
-        print("注意：在開始前請勿輸入1以外的數字，否則在直接結束遊戲！")
-        
-        start_input = input()  # 接受玩家的輸入
-        if start_input != "1":  # 如果玩家輸入的不是 1，遊戲結束
-            print("無效輸入，遊戲結束。\n")
-            print(f"你目前的總分数为 {self.score}。\n")
-            return  # 結束程式
+        print("按 Enter 鍵後，開始遊戲")  # 提示玩家輸入 1 來開始遊戲
+
+        input()
 
         time.sleep(1)  # 等待1秒，準備開始倒數
 
         # 開始倒數
         countdown()
-
+        print("\n") 
         # 顯示四個隨機數字並讓玩家記住
         numbers_to_remember = show_numbers()
 
@@ -289,8 +287,8 @@ class games():
         print("\nw = up : s = down : a = left : d = right")
         print("\nThe game lasts 10 seconds. The timer starts after you press 'Enter'!")
         print('比賽持續10秒。當您按下“Enter”鍵後，計時器開始計時！')
-        print("\nPress Enter when ready")
-        print('準備好後按 Enter 鍵')
+        print("\nPress Enter start")
+        print("按 Enter 鍵後，開始遊戲")
         print("\nInspired by Mobile game 'Not Not'")
         print("\n")
 
@@ -349,7 +347,9 @@ class games():
               "請儘快並正確地輸入顯示的文字。注意大小寫敏感！\n" + 
               "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n" +
               "每個單詞得1分，每個短語得3分。輸錯任何一個將扣1分。\n")
-        print("Press 'Enter' when ready")
+        print("\nPress Enter start")
+        print("按 Enter 鍵後，開始遊戲")
+
         input()
 
         start_time = time.time()
