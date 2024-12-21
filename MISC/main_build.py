@@ -523,7 +523,7 @@ while 1: #无限循环直到我想干的事完成
 
 #MAIN program START
 
-i = 1 #游戏次数
+i = 5 #游戏次数
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 
 while i > 0 and solo == False:
