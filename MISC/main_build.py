@@ -349,7 +349,7 @@ class games():
             "strawberry", "phone", "laptop", "desk", "chair", "pen", "notebook", "bag", "car", "bike",
             "clock", "television", "remote", "bottle", "glass", "mirror", "pillow", "lamp", "shoes", "door",
             "window", "Instagram", "TikTok", "WhatsApp", "Snapchat", "YouTube", "sports", "badminton",
-            "basketball", "table tennis", "volleyball", "rugby", "swimming", "I study at NTOU", "I love Taiwan",
+            "basketball", "tabletennis", "volleyball", "rugby", "swimming", "I study at NTOU", "I love Taiwan",
             "I major in Computer Science"
         ]
 
