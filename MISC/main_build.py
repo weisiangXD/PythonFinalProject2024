@@ -202,7 +202,11 @@ class games():
                         self.score += 5
                         print("終於猜中了！奖励 5 分！\n")
                     
-                    print(f"你目前的總分数为 {self.score}。\n")
+                    print(f"你目前的總分数为 {self.score}。")
+                    print("按 Enter 進入下一關\n")
+
+                    input()
+
                     break
 
                 # 检查猜测次数是否已用尽
@@ -239,7 +243,7 @@ class games():
         print("歡迎來到 '驗證碼' 遊戲！")  # 顯示遊戲歡迎語
         print(f"接下來會隨機顯示 {n} 個數字，請一模一樣寫出來。")
         print("注意：數字只會顯示2秒！\n")
-        print("按 Enter 鍵後，開始遊戲")  # 提示玩家輸入 1 來開始遊戲
+        print("按 Enter 開始遊戲")  # 提示玩家輸入 1 來開始遊戲
 
         input()
 
@@ -264,7 +268,7 @@ class games():
 
         # 檢查玩家輸入的數字是否與顯示的數字相同
         if user_numbers == numbers_to_remember:
-            print("你答對了！奖励 20 分！\n")
+            print("你答對了！奖励 20 分！")
             print("哎喲，不錯哦！\n")
             self.score += 20  # 答對加 20 分
         else:
@@ -272,8 +276,10 @@ class games():
             print("不是哥們這都記不住嗎？？？\n")
 
         # 顯示玩家最終的分數
-        print(f"你目前的總分数为 {self.score}。\n")
+        print(f"你目前的總分数为 {self.score}。")
+        print("按 Enter 進入下一關\n")
 
+        input()
 
     def NotNot(self):
         directions = [
@@ -292,7 +298,7 @@ class games():
         print("\nThe game lasts 10 seconds. The timer starts after you press 'Enter'!")
         print('比賽持續10秒。當您按下“Enter”鍵後，計時器開始計時！')
         print("\nPress Enter start")
-        print("按 Enter 鍵後，開始遊戲")
+        print("按 Enter 開始遊戲")
         print("\nInspired by Mobile game 'Not Not'")
         print("\n")
 
@@ -352,7 +358,7 @@ class games():
               "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n" +
               "每個單詞得1分，每個短語得3分。輸錯任何一個將扣1分。\n")
         print("\nPress Enter start")
-        print("按 Enter 鍵後，開始遊戲")
+        print("按 Enter 開始遊戲")
 
         input()
 
@@ -483,7 +489,7 @@ class HallOfFame():
 
 solo = False #当solo = False时为混合游戏模式
 while 1: #无限循环直到我想干的事完成
-    clear()
+    #clear()
     option = int(input("↓我是菜单↓\n1.开始游戏\n2.游玩特定的小游戏\n3.查看分数排行榜\n4.查看Credit\n")) #选择功能
 
     if option > 3 and option != 10086:
