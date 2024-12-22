@@ -272,12 +272,6 @@ class games():
         print(f"你目前的總分数为 {self.score}。\n")
 
     def NotNot(self):
-        key_to_direction = {
-            "w": "Up",
-            "s": "Down",
-            "a": "Left",
-            "d": "Right"
-        }
 
         directions = [
             ("Left", "a"),
@@ -420,7 +414,22 @@ class HallOfFame():
     def display(self, filename): #打印出排行榜
         self.load(filename) #加载文件
         self.sort() #排序
-        print("\n[HOF]排行榜：", end = "\n") #打印排行榜标题
+        match filename:
+            case "leaderboard.csv":
+                title = ""
+            case "EnglishTypingGame_leaderboard.csv":
+                title = "英文打字游戏"
+            case "guess_the_number_leaderboard.csv":
+                title = "猜数字游戏"
+            case "NMS_NUMseq_leaderboard.csv":
+                title = "NoManSky数字序列解谜游戏"
+            case "NotNot_leaderboard.csv":
+                title = "NotNot游戏"
+            case "v_code_leaderboard.csv":
+                title = "验证码游戏"
+            case "simplemath_leaderboard.csv":
+                title = "简单数学题"
+        print(f"\n[HOF]排行榜({title})：", end = "\n") #打印排行榜标题
         top = 1 #初始化排名计数器
         for printer in self.data:
             result = f"     \n[HOF]|TOP {top:>1}    |Player: {printer['uname']:<12}    |Score：{printer['score']:<6}"
