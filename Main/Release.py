@@ -418,18 +418,18 @@ class HallOfFame():
             case "leaderboard.csv":
                 title = ""
             case "EnglishTypingGame_leaderboard.csv":
-                title = "英文打字游戏"
+                title = "(英文打字游戏)"
             case "guess_the_number_leaderboard.csv":
-                title = "猜数字游戏"
+                title = "(猜数字游戏)"
             case "NMS_NUMseq_leaderboard.csv":
-                title = "NoManSky数字序列解谜游戏"
+                title = "(NoManSky数字序列解谜游戏)"
             case "NotNot_leaderboard.csv":
-                title = "NotNot游戏"
+                title = "(NotNot游戏)"
             case "v_code_leaderboard.csv":
-                title = "验证码游戏"
+                title = "(验证码游戏)"
             case "simplemath_leaderboard.csv":
-                title = "简单数学题"
-        print(f"\n[HOF]排行榜({title})：", end = "\n") #打印排行榜标题
+                title = "(简单数学题)"
+        print(f"\n[HOF]排行榜{title}：", end = "\n") #打印排行榜标题
         top = 1 #初始化排名计数器
         for printer in self.data:
             result = f"     \n[HOF]|TOP {top:>1}    |Player: {printer['uname']:<12}    |Score：{printer['score']:<6}"
@@ -493,7 +493,7 @@ solo = False #当solo = False时为混合游戏模式
 while 1: #无限循环直到我想干的事完成
     option = int(input("↓我是菜单↓\n1.开始游戏\n2.游玩特定的小游戏\n3.查看分数排行榜\n4.查看Credit\n")) #选择功能
 
-    if option > 3 and option != 10086:
+    if option > 4 and option != 10086:
         print("未知功能！请重新选取！")
         continue
 
