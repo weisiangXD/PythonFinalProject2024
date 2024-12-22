@@ -47,7 +47,7 @@ class games():
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数加法
             ans_string = f'{operands1[index]} {operators[0]} {operands2[index]}'
             ans = operands1[index] + operands2[index]
-        elif 5 <= DICE <= 7:  # 5-8 为减法 
+        elif 5 <= DICE <= 8:  # 5-8 为减法 
             index = 0 if num10 < 50 else 1 if num10 < 90 else 2 # index 0为个位数，1为十位数，2为百位数减法
             ans_string = f'{operands1[index]} {operators[1]} {operands2[index]}'
             ans = operands1[index] - operands2[index]
@@ -65,8 +65,7 @@ class games():
 
         while True:
             try:
-                player_input = int(input(dialog))
-                break  # 输入正确则退出循环
+                player_input = int(input(dialog)) # 输入答案
             except ValueError:
                 print("输入无效，请输入一个整数！\n")
 
@@ -157,7 +156,7 @@ class games():
         print("注意：你最多只能猜 10 次！")
 
         number_to_guess = Rnumber(2,99) # 隨機生成1到100之間的數字,不包括1和100
-        attempts = 0  # 記錄猜測次數
+        attempts = 0  # 記錄嘗試次數
         max_attempts = 10  # 最大猜測次數
 
         print("請輸入1到100之間的數字。")
@@ -174,7 +173,7 @@ class games():
                     print(f"超出範圍了！請輸入 {y} 到 {x} 之間的數字。\n")
                     continue  # 跳回循环让玩家重新输入
 
-                attempts += 1 # 記錄猜測次數
+                attempts += 1
 
                 if guess < number_to_guess:
                     print("太小了！再試一次。\n")
@@ -189,30 +188,22 @@ class games():
                     print(f"你總共猜了 {attempts} 次。")
 
                     # 加分逻辑：根据尝试次数奖励分数
-                    if attempts <= 1:
-                        self.score += 50
-                        print("歐皇就是你！奖励 50 分！\n")
-                    elif attempts <= 5:
-                        self.score += 20
-                        print("太神啦！奖励 20 分！\n")
+                    if attempts <= 5:
+                        self.score += 20  # 极快猜中，奖励 20 分
+                        print("太厉害了！奖励 20 分！\n")
                     elif attempts <= 8:
-                        self.score += 10
-                        print("哎喲，不错哦！奖励 10 分！\n")
+                        self.score += 10  # 正常表现，奖励 10 分
+                        print("很不错！奖励 10 分！\n")
                     else:
-                        self.score += 5
-                        print("終於猜中了！奖励 5 分！\n")
+                        self.score += 5  # 尽管尝试多次，但最终成功，奖励 5 分
+                        print("坚持就是胜利！奖励 5 分！\n")
                     
-                    print(f"你目前的總分数为 {self.score}。")
-                    print("按 Enter 進入下一關\n")
-
-                    input()
-
+                    print(f"你目前的總分数为 {self.score}。\n")
                     break
 
                 # 检查猜测次数是否已用尽
                 if attempts == max_attempts:
                     print("很遗憾，你已经用尽了所有猜测机会！")
-                    print("或許非洲很適合你。")
                     print(f"正確答案是 {number_to_guess} 。\n")
                     print(f"你目前的總分数为 {self.score}。\n")
 
@@ -220,12 +211,11 @@ class games():
                 print(f"錯誤：請輸入 {y} 到 {x} 之間的有效數字！\n")
 
     def v_code(self):# verification_code(驗證碼)
-        
-        n = 6 # 所要猜的數量
-
-        def show_numbers(): # 顯示n個隨機數字的函數
-            numbers = [time.sleep(0.25) or Rnumber(0, 9) for _ in range(n)] # 隨機生成n個 0 到 9 之間的數字
+        n = 4 # 所要猜的數量
+        def show_numbers(): # 顯示四個隨機數字的函數
+            numbers = [Rnumber(0, 9) for _ in range(n)] # 隨機生成n個 0 到 9 之間的數字
             
+            # 顯示這些數字，並將它們合併成一個無空格的字符串
             print("".join(map(str, numbers)))  # 將數字轉換為字符串並顯示
             time.sleep(2)  # 等待2秒鐘讓玩家記住數字
             print("\n" * 50)  # 清空屏幕
@@ -243,15 +233,20 @@ class games():
         print("歡迎來到 '驗證碼' 遊戲！")  # 顯示遊戲歡迎語
         print(f"接下來會隨機顯示 {n} 個數字，請一模一樣寫出來。")
         print("注意：數字只會顯示2秒！\n")
-        print("按 Enter 開始遊戲")  # 提示玩家輸入 1 來開始遊戲
-
-        input()
+        print("請輸入 1 進入倒數，3秒後開始遊戲。")  # 提示玩家輸入 1 來開始遊戲
+        print("注意：在開始前請勿輸入1以外的數字，否則在直接結束遊戲！")
+        
+        start_input = input()  # 接受玩家的輸入
+        if start_input != "1":  # 如果玩家輸入的不是 1，遊戲結束
+            print("無效輸入，遊戲結束。\n")
+            print(f"你目前的總分数为 {self.score}。\n")
+            return  # 結束程式
 
         time.sleep(1)  # 等待1秒，準備開始倒數
 
         # 開始倒數
         countdown()
-        print("\n") 
+
         # 顯示四個隨機數字並讓玩家記住
         numbers_to_remember = show_numbers()
 
@@ -268,20 +263,22 @@ class games():
 
         # 檢查玩家輸入的數字是否與顯示的數字相同
         if user_numbers == numbers_to_remember:
-            print("你答對了！奖励 20 分！")
-            print("哎喲，不錯哦！\n")
+            print("恭喜！你答對了！奖励 20 分！\n")
             self.score += 20  # 答對加 20 分
         else:
-            print("你答錯了！正確的數字是：\n", "".join(map(str, numbers_to_remember)))
-            print("不是哥們這都記不住嗎？？？\n")
+            print("很遺憾，你答錯了！正確的數字是：\n", "".join(map(str, numbers_to_remember)))
 
         # 顯示玩家最終的分數
-        print(f"你目前的總分数为 {self.score}。")
-        print("按 Enter 進入下一關\n")
-
-        input()
+        print(f"你目前的總分数为 {self.score}。\n")
 
     def NotNot(self):
+        key_to_direction = {
+            "w": "Up",
+            "s": "Down",
+            "a": "Left",
+            "d": "Right"
+        }
+
         directions = [
             ("Left", "a"),
             ("Right", "d"),
@@ -295,49 +292,41 @@ class games():
         print("\n'Left' means type 'a', 'Not Left' means type anything BUT 'a'.")
         print('“左”表示鍵入“a”，“非左”表示鍵入除“a”以外的任何內容。')
         print("\nw = up : s = down : a = left : d = right")
-        print("\nThe game lasts 10 seconds. The timer starts after you press 'Enter'!")
-        print('比賽持續10秒。當您按下“Enter”鍵後，計時器開始計時！')
-        print("\nPress Enter start")
-        print("按 Enter 開始遊戲")
+        print("\nThe game lasts 30 seconds. The timer starts after when you press 'Enter'!")
+        print('比賽持續30秒。當您按下“Enter”鍵後，計時器開始計時&#xff01;')
+        print("\nPress Enter when ready")
+        print('準備好後按 Enter 鍵')
         print("\nInspired by Mobile game 'Not Not'")
         print("\n")
 
-        input()
-
         start_time = time.time()
-        score = self.score
-
+        score = self.score  
         while time.time() - start_time < game_duration:
             is_not = random.choice([True, False])
             direction, correct_key = random.choice(directions)
             instruction = f"Not {direction}" if is_not else direction
 
             print(f"\nInstruction: {instruction}")
-            user_input = input("Your move: ").lower()
+            user_input = input("Your move: ").strip()
 
-            if user_input == "":
-                print("Wrong!")
-                score -= 1
-            else:
-                if is_not:
-                    if user_input != correct_key:
-                        print("Correct!")
-                        score += 1
-                    else:
-                        print("Wrong!")
-                        score -= 1
+            if is_not:
+                if user_input != correct_key:
+                    print("Correct!")
+                    score += 1
                 else:
-                    if user_input == correct_key:
-                        print("Correct!")
-                        score += 1
-                    else:
-                        print("Wrong!")
-                        score -= 1
+                    print("Wrong!")
+                    score -= 1
+            else:
+                if user_input == correct_key:
+                    print("Correct!")
+                    score += 1
+                else:
+                    print("Wrong!")
+                    score -= 1
 
         print("\nTime's up!")
         print(f"Your score is: {score}")
         self.score = score
-
 
     def EnglishTypingGame(self):
 
@@ -349,27 +338,23 @@ class games():
             "strawberry", "phone", "laptop", "desk", "chair", "pen", "notebook", "bag", "car", "bike",
             "clock", "television", "remote", "bottle", "glass", "mirror", "pillow", "lamp", "shoes", "door",
             "window", "Instagram", "TikTok", "WhatsApp", "Snapchat", "YouTube", "sports", "badminton",
-            "basketball", "tabletennis", "volleyball", "rugby", "swimming", "I study at NTOU", "I love Taiwan",
+            "basketball", "table tennis", "volleyball", "rugby", "swimming", "I study at NTOU", "I love Taiwan",
             "I major in Computer Science"
         ]
 
         print("Type out as many of the displayed words as quickly and correctly as you can. CAPITAL LETTER SENSITIVE!!\n" +
-              "請儘快並正確地輸入顯示的文字。注意大小寫敏感！\n" + 
-              "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n" +
-              "每個單詞得1分，每個短語得3分。輸錯任何一個將扣1分。\n")
-        print("\nPress Enter start")
-        print("按 Enter 開始遊戲")
-
+              "Every word is worth 1 point and every phrase is 3 points. Getting any of them wrong is minus 1 point.\n")
+        print("Press 'Enter' when ready")
         input()
 
         start_time = time.time()
         elapsed_time = 0
         print("Game start!")
 
-        while elapsed_time < 15:
+        while elapsed_time < 10:
             word = random.choice(dictionary)
             print(word)
-            user_input = input("Your answer: ")
+            user_input = input("Your answer: ").strip()
 
             if user_input == word:
                 points = 3 if " " in word else 1
@@ -494,7 +479,7 @@ class HallOfFame():
 #Function definition zone END
 
 #Menu START
-#clear() #清除屏幕
+clear() #清除屏幕
 solo = False #当solo = False时为混合游戏模式
 while 1: #无限循环直到我想干的事完成
     option = int(input("↓我是菜单↓\n1.开始游戏\n2.游玩特定的小游戏\n3.查看分数排行榜\n4.查看Credit\n")) #选择功能
@@ -544,7 +529,7 @@ while 1: #无限循环直到我想干的事完成
 
 #MAIN program START
 
-#clear() #清一清
+clear() #清一清
 i = 1 #游戏关卡数
 GAMES = games(0) #创建一个GAMES instance，然后套用games class里的功能。
 

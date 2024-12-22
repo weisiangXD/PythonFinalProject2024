@@ -65,8 +65,7 @@ class games():
 
         while True:
             try:
-                player_input = int(input(dialog))
-                break  # 输入正确则退出循环
+                player_input = int(input(dialog)) # 输入答案
             except ValueError:
                 print("输入无效，请输入一个整数！\n")
 
