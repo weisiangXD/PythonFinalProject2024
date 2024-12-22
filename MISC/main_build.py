@@ -463,7 +463,7 @@ class HallOfFame():
     #管理员使用的后台程序。
     def leaderboard_console(self): 
         clear() #清一清屏幕
-        option = int(input("\n[HOF_ADMIN]↓我是菜单(排行榜debugger)↓\n{:<5}1.添加分数\n{:<5}2.查看排行榜\n".format('','')))
+        option = int(input("\n[HOF_ADMIN]↓我是菜单(排行榜debugger)↓\n{:<5}1.添加分数\n{:<5}\n".format('','')))
         correspoding_leaderboard = {1:"leaderboard.csv", 2:"EnglishTypingGame_leaderboard.csv", 3:"guess_the_number_leaderboard.csv", 4:"NMS_NUMseq_leaderboard.csv", 5:"NotNot_leaderboard.csv", 6:"v_code_leaderboard.csv", 7:"simplemath_leaderboard.csv"}
         
 
@@ -472,8 +472,6 @@ class HallOfFame():
                 print("\n[HOF_ADMIN]↓我是菜单(排行榜debugger)↓\n{:<5}1.排行榜\n{:<5}2.英文打字游戏排行榜\n{:<5}3.猜数字游戏排行榜\n{:<5}4.NoManSky数字序列解谜游戏排行榜\n{:<5}5.NotNot游戏排行榜\n{:<5}6.验证码游戏排行榜\n{:<5}7.简单数学题排行榜\n".format('','','','','','',''))
                 option_leaderboard = int(input())
                 self.save_data(correspoding_leaderboard[option_leaderboard], 10086, 0) #10086为管理员模式
-            case 2:
-                self.display()
 
 
 #Function definition zone END
